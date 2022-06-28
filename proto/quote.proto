@@ -7,9 +7,9 @@ option go_package = "github.com/baqiwaqi/quote-service";
 service QuoteTool {
   // v1
   rpc GetQuote(QuoteService.QuoteRequest) returns ( QuoteService.QuoteResponse);
-  rpc CreateQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteListResponse);
-  rpc UpdateQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
-  rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
+  rpc CreateQuote(QuoteService.Quote) returns (QuoteService.QuoteListResponse);
+  rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteResponse);
+  rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
   // listQuotes
   // streamQuotes
@@ -66,6 +66,8 @@ message QuoteService {
   message QuoteRequest { string id = 1; }
   message QuoteResponse { Quote quote = 1; }
   message QuoteListResponse { repeated Quote quotes = 1; }
+  message QuoteDeleteResponse { string response = 1; }
+  
   // v2
   // listQuotes
   // streamQuotes

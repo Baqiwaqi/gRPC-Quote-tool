@@ -4,6 +4,28 @@
 var grpc = require('@grpc/grpc-js');
 var quote_pb = require('./quote_pb.js');
 
+function serialize_quoteTool_QuoteService_Quote(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.Quote)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.Quote');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_Quote(buffer_arg) {
+  return quote_pb.QuoteService.Quote.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_quoteTool_QuoteService_QuoteDeleteResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuoteDeleteResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteDeleteResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_QuoteDeleteResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuoteDeleteResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_quoteTool_QuoteService_QuoteListResponse(arg) {
   if (!(arg instanceof quote_pb.QuoteService.QuoteListResponse)) {
     throw new Error('Expected argument of type quoteTool.QuoteService.QuoteListResponse');
@@ -55,10 +77,10 @@ getQuote: {
     path: '/quoteTool.QuoteTool/CreateQuote',
     requestStream: false,
     responseStream: false,
-    requestType: quote_pb.QuoteService.QuoteRequest,
+    requestType: quote_pb.QuoteService.Quote,
     responseType: quote_pb.QuoteService.QuoteListResponse,
-    requestSerialize: serialize_quoteTool_QuoteService_QuoteRequest,
-    requestDeserialize: deserialize_quoteTool_QuoteService_QuoteRequest,
+    requestSerialize: serialize_quoteTool_QuoteService_Quote,
+    requestDeserialize: deserialize_quoteTool_QuoteService_Quote,
     responseSerialize: serialize_quoteTool_QuoteService_QuoteListResponse,
     responseDeserialize: deserialize_quoteTool_QuoteService_QuoteListResponse,
   },
@@ -66,10 +88,10 @@ getQuote: {
     path: '/quoteTool.QuoteTool/UpdateQuote',
     requestStream: false,
     responseStream: false,
-    requestType: quote_pb.QuoteService.QuoteRequest,
+    requestType: quote_pb.QuoteService.Quote,
     responseType: quote_pb.QuoteService.QuoteResponse,
-    requestSerialize: serialize_quoteTool_QuoteService_QuoteRequest,
-    requestDeserialize: deserialize_quoteTool_QuoteService_QuoteRequest,
+    requestSerialize: serialize_quoteTool_QuoteService_Quote,
+    requestDeserialize: deserialize_quoteTool_QuoteService_Quote,
     responseSerialize: serialize_quoteTool_QuoteService_QuoteResponse,
     responseDeserialize: deserialize_quoteTool_QuoteService_QuoteResponse,
   },
@@ -78,11 +100,11 @@ getQuote: {
     requestStream: false,
     responseStream: false,
     requestType: quote_pb.QuoteService.QuoteRequest,
-    responseType: quote_pb.QuoteService.QuoteResponse,
+    responseType: quote_pb.QuoteService.QuoteDeleteResponse,
     requestSerialize: serialize_quoteTool_QuoteService_QuoteRequest,
     requestDeserialize: deserialize_quoteTool_QuoteService_QuoteRequest,
-    responseSerialize: serialize_quoteTool_QuoteService_QuoteResponse,
-    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteResponse,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteDeleteResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteDeleteResponse,
   },
   // v2
 // listQuotes

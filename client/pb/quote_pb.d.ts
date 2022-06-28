@@ -321,4 +321,25 @@ export namespace QuoteService {
         }
     }
 
+    export class QuoteDeleteResponse extends jspb.Message { 
+        getResponse(): string;
+        setResponse(value: string): QuoteDeleteResponse;
+
+
+        serializeBinary(): Uint8Array;
+        toObject(includeInstance?: boolean): QuoteDeleteResponse.AsObject;
+        static toObject(includeInstance: boolean, msg: QuoteDeleteResponse): QuoteDeleteResponse.AsObject;
+        static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+        static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+        static serializeBinaryToWriter(message: QuoteDeleteResponse, writer: jspb.BinaryWriter): void;
+        static deserializeBinary(bytes: Uint8Array): QuoteDeleteResponse;
+        static deserializeBinaryFromReader(message: QuoteDeleteResponse, reader: jspb.BinaryReader): QuoteDeleteResponse;
+    }
+
+    export namespace QuoteDeleteResponse {
+        export type AsObject = {
+            response: string,
+        }
+    }
+
 }
