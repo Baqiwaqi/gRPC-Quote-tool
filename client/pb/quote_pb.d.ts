@@ -317,26 +317,24 @@ export namespace QuoteService {
         }
     }
 
-    export class QuoteListResponse extends jspb.Message { 
-        clearQuotesList(): void;
-        getQuotesList(): Array<QuoteService.Quote>;
-        setQuotesList(value: Array<QuoteService.Quote>): QuoteListResponse;
-        addQuotes(value?: QuoteService.Quote, index?: number): QuoteService.Quote;
+    export class QuoteUpdateResponse extends jspb.Message { 
+        getResponse(): string;
+        setResponse(value: string): QuoteUpdateResponse;
 
 
         serializeBinary(): Uint8Array;
-        toObject(includeInstance?: boolean): QuoteListResponse.AsObject;
-        static toObject(includeInstance: boolean, msg: QuoteListResponse): QuoteListResponse.AsObject;
+        toObject(includeInstance?: boolean): QuoteUpdateResponse.AsObject;
+        static toObject(includeInstance: boolean, msg: QuoteUpdateResponse): QuoteUpdateResponse.AsObject;
         static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
         static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-        static serializeBinaryToWriter(message: QuoteListResponse, writer: jspb.BinaryWriter): void;
-        static deserializeBinary(bytes: Uint8Array): QuoteListResponse;
-        static deserializeBinaryFromReader(message: QuoteListResponse, reader: jspb.BinaryReader): QuoteListResponse;
+        static serializeBinaryToWriter(message: QuoteUpdateResponse, writer: jspb.BinaryWriter): void;
+        static deserializeBinary(bytes: Uint8Array): QuoteUpdateResponse;
+        static deserializeBinaryFromReader(message: QuoteUpdateResponse, reader: jspb.BinaryReader): QuoteUpdateResponse;
     }
 
-    export namespace QuoteListResponse {
+    export namespace QuoteUpdateResponse {
         export type AsObject = {
-            quotesList: Array<QuoteService.Quote.AsObject>,
+            response: string,
         }
     }
 

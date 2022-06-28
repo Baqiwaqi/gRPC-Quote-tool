@@ -8,7 +8,7 @@ service QuoteTool {
   // v1
   rpc GetQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
   rpc CreateQuote(QuoteService.Quote) returns (QuoteService.QuoteCreateResponse);
-  rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteResponse);
+  rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteUpdateResponse);
   rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
   // listQuotes
@@ -66,10 +66,11 @@ message QuoteService {
   message QuoteRequest { string id = 1; }
   message QuoteResponse { Quote quote = 1; }
   message QuoteCreateResponse { string response = 1; }
-  message QuoteListResponse { repeated Quote quotes = 1; }
+  message QuoteUpdateResponse { string response = 1; }
   message QuoteDeleteResponse { string response = 1; }
 
   // v2
   // listQuotes
+  // message QuoteListResponse { repeated Quote quotes = 1; }
   // streamQuotes
 }

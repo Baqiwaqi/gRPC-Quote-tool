@@ -25,7 +25,7 @@ type QuoteToolClient interface {
 	// v1
 	GetQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteResponse, error)
 	CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteCreateResponse, error)
-	UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteResponse, error)
+	UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteUpdateResponse, error)
 	DeleteQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteDeleteResponse, error)
 }
 
@@ -55,8 +55,8 @@ func (c *quoteToolClient) CreateQuote(ctx context.Context, in *QuoteService_Quot
 	return out, nil
 }
 
-func (c *quoteToolClient) UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteResponse, error) {
-	out := new(QuoteService_QuoteResponse)
+func (c *quoteToolClient) UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteUpdateResponse, error) {
+	out := new(QuoteService_QuoteUpdateResponse)
 	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/UpdateQuote", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ type QuoteToolServer interface {
 	// v1
 	GetQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteResponse, error)
 	CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteCreateResponse, error)
-	UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteResponse, error)
+	UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteUpdateResponse, error)
 	DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error)
 	mustEmbedUnimplementedQuoteToolServer()
 }
@@ -95,7 +95,7 @@ func (UnimplementedQuoteToolServer) GetQuote(context.Context, *QuoteService_Quot
 func (UnimplementedQuoteToolServer) CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteCreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateQuote not implemented")
 }
-func (UnimplementedQuoteToolServer) UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteResponse, error) {
+func (UnimplementedQuoteToolServer) UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateQuote not implemented")
 }
 func (UnimplementedQuoteToolServer) DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error) {

@@ -59,6 +59,17 @@ function deserialize_quoteTool_QuoteService_QuoteResponse(buffer_arg) {
   return quote_pb.QuoteService.QuoteResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_quoteTool_QuoteService_QuoteUpdateResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuoteUpdateResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteUpdateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_QuoteUpdateResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuoteUpdateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var QuoteToolService = exports.QuoteToolService = {
   // v1
@@ -89,11 +100,11 @@ getQuote: {
     requestStream: false,
     responseStream: false,
     requestType: quote_pb.QuoteService.Quote,
-    responseType: quote_pb.QuoteService.QuoteResponse,
+    responseType: quote_pb.QuoteService.QuoteUpdateResponse,
     requestSerialize: serialize_quoteTool_QuoteService_Quote,
     requestDeserialize: deserialize_quoteTool_QuoteService_Quote,
-    responseSerialize: serialize_quoteTool_QuoteService_QuoteResponse,
-    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteResponse,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteUpdateResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteUpdateResponse,
   },
   deleteQuote: {
     path: '/quoteTool.QuoteTool/DeleteQuote',

@@ -46,15 +46,12 @@ func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_Quote)
 	return &pb.QuoteService_QuoteCreateResponse{Response: "Quote succesfully created"}, nil
 }
 
-func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteResponse, error) {
-	log.Printf("Updating quote: %v", req.Id)
-	// for i, quote := range quotes {
-	// 	if quote.Id == req.Id {
-	// 		quotes[i] = req
-	// 		return &pb.QuoteService_QuoteResponse{Quote: quotes[i]}, nil
-	// 	}
-	// }
-	return nil, ErrQuoteNotFound
+func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteUpdateResponse, error) {
+	err := db.UpdateQuoteInFirestore(s.client, req)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.QuoteService_QuoteUpdateResponse{Response: "Quote succefully updated"}, nil
 }
 
 func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {

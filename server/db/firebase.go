@@ -13,16 +13,15 @@ import (
 // var with errorss
 var (
 	ErrQuoteNotFound = status.Error(codes.NotFound, "Flight not found")
-	ErrGettingQuote  = status.Error(codes.Internal, "Error getting quote")
-	ErrCreatingQuote = status.Error(codes.Internal, "Error creating quote")
+	ErrFirebase      = status.Error(codes.Internal, "Error firebase internal")
 )
 
 func GetQuoteFromFirestore(s *firestore.Client) (*pb.QuoteService_Quote, error) {
 	ctx := context.Background()
 	docSnap, err := s.Collection("quotes").Doc("VGWLJShytf0FzohUrbzt").Get(ctx)
 	if err != nil {
-		log.Fatalf("Error getting document: %v", err)
-		return nil, ErrGettingQuote
+		log.Printf("Error getting document: %v", err)
+		return nil, ErrFirebase
 	}
 	if !docSnap.Exists() {
 		return nil, ErrQuoteNotFound
@@ -36,7 +35,19 @@ func CreateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	ctx := context.Background()
 	_, _, err := s.Collection("quotes").Add(ctx, quote)
 	if err != nil {
-		return ErrCreatingQuote
+		log.Println(err)
+		return ErrFirebase
+	}
+	return nil
+}
+
+// update is set with merge enabled
+func UpdateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) error {
+	ctx := context.Background()
+	_, err := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
+	if err != nil {
+		log.Println(err)
+		return ErrFirebase
 	}
 	return nil
 }

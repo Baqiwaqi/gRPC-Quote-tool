@@ -33,14 +33,14 @@ interface IQuoteToolService_ICreateQuote extends grpc.MethodDefinition<quote_pb.
     responseSerialize: grpc.serialize<quote_pb.QuoteService.QuoteCreateResponse>;
     responseDeserialize: grpc.deserialize<quote_pb.QuoteService.QuoteCreateResponse>;
 }
-interface IQuoteToolService_IUpdateQuote extends grpc.MethodDefinition<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteResponse> {
+interface IQuoteToolService_IUpdateQuote extends grpc.MethodDefinition<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteUpdateResponse> {
     path: "/quoteTool.QuoteTool/UpdateQuote";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<quote_pb.QuoteService.Quote>;
     requestDeserialize: grpc.deserialize<quote_pb.QuoteService.Quote>;
-    responseSerialize: grpc.serialize<quote_pb.QuoteService.QuoteResponse>;
-    responseDeserialize: grpc.deserialize<quote_pb.QuoteService.QuoteResponse>;
+    responseSerialize: grpc.serialize<quote_pb.QuoteService.QuoteUpdateResponse>;
+    responseDeserialize: grpc.deserialize<quote_pb.QuoteService.QuoteUpdateResponse>;
 }
 interface IQuoteToolService_IDeleteQuote extends grpc.MethodDefinition<quote_pb.QuoteService.QuoteRequest, quote_pb.QuoteService.QuoteDeleteResponse> {
     path: "/quoteTool.QuoteTool/DeleteQuote";
@@ -57,7 +57,7 @@ export const QuoteToolService: IQuoteToolService;
 export interface IQuoteToolServer {
     getQuote: grpc.handleUnaryCall<quote_pb.QuoteService.QuoteRequest, quote_pb.QuoteService.QuoteResponse>;
     createQuote: grpc.handleUnaryCall<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteCreateResponse>;
-    updateQuote: grpc.handleUnaryCall<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteResponse>;
+    updateQuote: grpc.handleUnaryCall<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteUpdateResponse>;
     deleteQuote: grpc.handleUnaryCall<quote_pb.QuoteService.QuoteRequest, quote_pb.QuoteService.QuoteDeleteResponse>;
 }
 
@@ -68,9 +68,9 @@ export interface IQuoteToolClient {
     createQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
     createQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
     createQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
-    updateQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
-    updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
-    updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
+    updateQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
+    updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
+    updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
     deleteQuote(request: quote_pb.QuoteService.QuoteRequest, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
     deleteQuote(request: quote_pb.QuoteService.QuoteRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
     deleteQuote(request: quote_pb.QuoteService.QuoteRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
@@ -84,9 +84,9 @@ export class QuoteToolClient extends grpc.Client implements IQuoteToolClient {
     public createQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
     public createQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
     public createQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteCreateResponse) => void): grpc.ClientUnaryCall;
-    public updateQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
-    public updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
-    public updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteResponse) => void): grpc.ClientUnaryCall;
+    public updateQuote(request: quote_pb.QuoteService.Quote, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
+    public updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
+    public updateQuote(request: quote_pb.QuoteService.Quote, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteUpdateResponse) => void): grpc.ClientUnaryCall;
     public deleteQuote(request: quote_pb.QuoteService.QuoteRequest, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
     public deleteQuote(request: quote_pb.QuoteService.QuoteRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
     public deleteQuote(request: quote_pb.QuoteService.QuoteRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuoteDeleteResponse) => void): grpc.ClientUnaryCall;
