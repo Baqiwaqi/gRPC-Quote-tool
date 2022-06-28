@@ -1,0 +1,19 @@
+# /proto/buf.gen.yaml
+version: v1
+plugins:
+  - name: go # Synonym with: protoc-gen-<name>
+    out: ../server/pb
+    opt: paths=source_relative
+  - name: go-grpc
+    out: ../server/pb
+    opt: paths=source_relative
+  - name: js
+    out: ../client/pb
+    opt: import_style=commonjs,binary
+  - name: grpc
+    out: ../client/pb
+    opt: grpc_js
+    path: grpc_tools_node_protoc_plugin
+  - name: ts
+    out: ../client/pb
+    opt: grpc_js
