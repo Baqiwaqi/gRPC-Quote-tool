@@ -30,78 +30,41 @@ var (
 	ErrGettingQuote  = status.Error(codes.Internal, "Error getting quote")
 )
 
-var customer_contact = []*pb.QuoteService_CustomerContact{
-	{
-		Name:  "John Doe",
-		Phone: "",
-		Email: "",
-	},
-}
-
-var cargo = []*pb.QuoteService_Cargo{
-	{Pieces: 12, Length: 100, Width: 100, Height: 100, GrossWeight: 350},
-	{Pieces: 12, Length: 100, Width: 100, Height: 100, GrossWeight: 350},
-}
-
-// Mock data soon to be replaced by a database firestore
-var quotes = []*pb.QuoteService_Quote{
-	{
-		Id:              "1",
-		Carrier:         "UPS",
-		Customer:        "John Doe",
-		CustomerRef:     "12345",
-		CustomerContact: customer_contact,
-		AvailableDate:   "124368769",
-		Product:         "Product 1",
-		CollectFrom:     "123 Main St",
-		Origin:          "AMS",
-		Destination:     "LAX",
-		CargoType:       "Container",
-		IsDangerous:     false,
-		CanBeTurned:     false,
-		IsKnown:         false,
-		AircraftOnly:    false,
-		Description:     "This is a description",
-		SizeMetric:      "centimeters",
-		WeightMetric:    "kilograms",
-		Cargo:           cargo,
-		Rate:            &pb.QuoteService_Rate{On: "chargeable", CostMin: 120, CostRate: 1, SalesMin: 120, SalesRate: 1.48, Currency: "EUR"},
-	},
-}
-
 func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteResponse, error) {
-	quote, err := db.GetDataFromFirestore(s.client)
+	quote, err := db.GetQuoteFromFirestore(s.client)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.QuoteService_QuoteResponse{Quote: quote}, nil
 }
 
-func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteListResponse, error) {
-	log.Printf("Creating quote: %v", req.Id)
-	quotes = append(quotes, req) // add quote to quotes array
-	return &pb.QuoteService_QuoteListResponse{Quotes: quotes}, nil
+func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteCreateResponse, error) {
+	err := db.CreateQuoteInFirestore(s.client, req)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.QuoteService_QuoteCreateResponse{Response: "Quote succesfully created"}, nil
 }
 
 func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteResponse, error) {
 	log.Printf("Updating quote: %v", req.Id)
-	for i, quote := range quotes {
-		if quote.Id == req.Id {
-			quotes[i] = req
-			return &pb.QuoteService_QuoteResponse{Quote: quotes[i]}, nil
-		}
-	}
+	// for i, quote := range quotes {
+	// 	if quote.Id == req.Id {
+	// 		quotes[i] = req
+	// 		return &pb.QuoteService_QuoteResponse{Quote: quotes[i]}, nil
+	// 	}
+	// }
 	return nil, ErrQuoteNotFound
 }
 
 func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {
 	log.Printf("Deleting quote: %v", req.Id)
-	for i, quote := range quotes {
-		if quote.Id == req.Id {
-			quotes = append(quotes[:i], quotes[i+1:]...)
-			return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote %v is succesfully deleted!"}, nil
-		}
-	}
+	// for i, quote := range quotes {
+	// 	if quote.Id == req.Id {
+	// 		quotes = append(quotes[:i], quotes[i+1:]...)
+	// 		return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote %v is succesfully deleted!"}, nil
+	// 	}
+	// }
 	return nil, ErrQuoteNotFound
 }
 
@@ -120,6 +83,7 @@ func (s *QuoteServer) NewFirebaseClient() {
 	log.Printf("Client succesfully created: %v", client)
 	// set the client to the server
 	s.client = client
+	// set context to the server
 }
 
 func main() {
@@ -136,3 +100,42 @@ func main() {
 	log.Printf("Quote server listening on port %s", port)
 	s.Serve(lis)
 }
+
+// var customer_contact = []*pb.QuoteService_CustomerContact{
+// 	{
+// 		Name:  "John Doe",
+// 		Phone: "",
+// 		Email: "",
+// 	},
+// }
+
+// var cargo = []*pb.QuoteService_Cargo{
+// 	{Pieces: 12, CLength: 100, Width: 100, Height: 100, GrossWeight: 350},
+// 	{Pieces: 12, CLength: 100, Width: 100, Height: 100, GrossWeight: 350},
+// }
+
+// // Mock data soon to be replaced by a database firestore
+// var quotes = []*pb.QuoteService_Quote{
+// 	{
+// 		Id:              "1",
+// 		Carrier:         "UPS",
+// 		Customer:        "John Doe",
+// 		CustomerRef:     "12345",
+// 		CustomerContact: customer_contact,
+// 		AvailableDate:   "124368769",
+// 		Product:         "Product 1",
+// 		CollectFrom:     "123 Main St",
+// 		Origin:          "AMS",
+// 		Destination:     "LAX",
+// 		CargoType:       "Container",
+// 		IsDangerous:     false,
+// 		CanBeTurned:     false,
+// 		IsKnown:         false,
+// 		AircraftOnly:    false,
+// 		Description:     "This is a description",
+// 		SizeMetric:      "centimeters",
+// 		WeightMetric:    "kilograms",
+// 		Cargo:           cargo,
+// 		Rate:            &pb.QuoteService_Rate{On: "chargeable", CostMin: 120, CostRate: 1, SalesMin: 120, SalesRate: 1.48, Currency: "EUR"},
+// 	},
+// }

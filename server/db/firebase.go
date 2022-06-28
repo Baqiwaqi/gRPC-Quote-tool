@@ -14,9 +14,10 @@ import (
 var (
 	ErrQuoteNotFound = status.Error(codes.NotFound, "Flight not found")
 	ErrGettingQuote  = status.Error(codes.Internal, "Error getting quote")
+	ErrCreatingQuote = status.Error(codes.Internal, "Error creating quote")
 )
 
-func GetDataFromFirestore(s *firestore.Client) (*pb.QuoteService_Quote, error) {
+func GetQuoteFromFirestore(s *firestore.Client) (*pb.QuoteService_Quote, error) {
 	ctx := context.Background()
 	docSnap, err := s.Collection("quotes").Doc("VGWLJShytf0FzohUrbzt").Get(ctx)
 	if err != nil {
@@ -29,4 +30,13 @@ func GetDataFromFirestore(s *firestore.Client) (*pb.QuoteService_Quote, error) {
 	var quote *pb.QuoteService_Quote
 	docSnap.DataTo(&quote)
 	return quote, nil
+}
+
+func CreateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) error {
+	ctx := context.Background()
+	_, _, err := s.Collection("quotes").Add(ctx, quote)
+	if err != nil {
+		return ErrCreatingQuote
+	}
+	return nil
 }

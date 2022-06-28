@@ -160,8 +160,8 @@ export namespace QuoteService {
         getPieces(): number;
         setPieces(value: number): Cargo;
 
-        getLength(): number;
-        setLength(value: number): Cargo;
+        getClength(): number;
+        setClength(value: number): Cargo;
 
         getWidth(): number;
         setWidth(value: number): Cargo;
@@ -186,7 +186,7 @@ export namespace QuoteService {
     export namespace Cargo {
         export type AsObject = {
             pieces: number,
-            length: number,
+            clength: number,
             width: number,
             height: number,
             grossweight: number,
@@ -293,6 +293,27 @@ export namespace QuoteService {
     export namespace QuoteResponse {
         export type AsObject = {
             quote?: QuoteService.Quote.AsObject,
+        }
+    }
+
+    export class QuoteCreateResponse extends jspb.Message { 
+        getResponse(): string;
+        setResponse(value: string): QuoteCreateResponse;
+
+
+        serializeBinary(): Uint8Array;
+        toObject(includeInstance?: boolean): QuoteCreateResponse.AsObject;
+        static toObject(includeInstance: boolean, msg: QuoteCreateResponse): QuoteCreateResponse.AsObject;
+        static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+        static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+        static serializeBinaryToWriter(message: QuoteCreateResponse, writer: jspb.BinaryWriter): void;
+        static deserializeBinary(bytes: Uint8Array): QuoteCreateResponse;
+        static deserializeBinaryFromReader(message: QuoteCreateResponse, reader: jspb.BinaryReader): QuoteCreateResponse;
+    }
+
+    export namespace QuoteCreateResponse {
+        export type AsObject = {
+            response: string,
         }
     }
 

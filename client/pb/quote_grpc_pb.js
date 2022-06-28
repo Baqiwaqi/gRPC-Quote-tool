@@ -15,6 +15,17 @@ function deserialize_quoteTool_QuoteService_Quote(buffer_arg) {
   return quote_pb.QuoteService.Quote.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_quoteTool_QuoteService_QuoteCreateResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuoteCreateResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteCreateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_QuoteCreateResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuoteCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_quoteTool_QuoteService_QuoteDeleteResponse(arg) {
   if (!(arg instanceof quote_pb.QuoteService.QuoteDeleteResponse)) {
     throw new Error('Expected argument of type quoteTool.QuoteService.QuoteDeleteResponse');
@@ -24,17 +35,6 @@ function serialize_quoteTool_QuoteService_QuoteDeleteResponse(arg) {
 
 function deserialize_quoteTool_QuoteService_QuoteDeleteResponse(buffer_arg) {
   return quote_pb.QuoteService.QuoteDeleteResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_quoteTool_QuoteService_QuoteListResponse(arg) {
-  if (!(arg instanceof quote_pb.QuoteService.QuoteListResponse)) {
-    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteListResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_quoteTool_QuoteService_QuoteListResponse(buffer_arg) {
-  return quote_pb.QuoteService.QuoteListResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_quoteTool_QuoteService_QuoteRequest(arg) {
@@ -78,11 +78,11 @@ getQuote: {
     requestStream: false,
     responseStream: false,
     requestType: quote_pb.QuoteService.Quote,
-    responseType: quote_pb.QuoteService.QuoteListResponse,
+    responseType: quote_pb.QuoteService.QuoteCreateResponse,
     requestSerialize: serialize_quoteTool_QuoteService_Quote,
     requestDeserialize: deserialize_quoteTool_QuoteService_Quote,
-    responseSerialize: serialize_quoteTool_QuoteService_QuoteListResponse,
-    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteListResponse,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteCreateResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteCreateResponse,
   },
   updateQuote: {
     path: '/quoteTool.QuoteTool/UpdateQuote',
