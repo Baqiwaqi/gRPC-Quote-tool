@@ -36,14 +36,13 @@ export namespace QuoteService {
         getCustomerRef(): string;
         setCustomerRef(value: string): Quote;
 
+        clearCustomerContactList(): void;
+        getCustomerContactList(): Array<QuoteService.CustomerContact>;
+        setCustomerContactList(value: Array<QuoteService.CustomerContact>): Quote;
+        addCustomerContact(value?: QuoteService.CustomerContact, index?: number): QuoteService.CustomerContact;
 
-        hasCustomerContact(): boolean;
-        clearCustomerContact(): void;
-        getCustomerContact(): QuoteService.CustomerContact | undefined;
-        setCustomerContact(value?: QuoteService.CustomerContact): Quote;
-
-        getAvailabledate(): number;
-        setAvailabledate(value: number): Quote;
+        getAvailabledate(): string;
+        setAvailabledate(value: string): Quote;
 
         getProduct(): string;
         setProduct(value: string): Quote;
@@ -81,11 +80,10 @@ export namespace QuoteService {
         getWeightmetric(): string;
         setWeightmetric(value: string): Quote;
 
-
-        hasCargo(): boolean;
-        clearCargo(): void;
-        getCargo(): QuoteService.Cargo | undefined;
-        setCargo(value?: QuoteService.Cargo): Quote;
+        clearCargoList(): void;
+        getCargoList(): Array<QuoteService.Cargo>;
+        setCargoList(value: Array<QuoteService.Cargo>): Quote;
+        addCargo(value?: QuoteService.Cargo, index?: number): QuoteService.Cargo;
 
 
         hasRate(): boolean;
@@ -110,8 +108,8 @@ export namespace QuoteService {
             carrier: string,
             customer: string,
             customerRef: string,
-            customerContact?: QuoteService.CustomerContact.AsObject,
-            availabledate: number,
+            customerContactList: Array<QuoteService.CustomerContact.AsObject>,
+            availabledate: string,
             product: string,
             collectfrom: string,
             origin: string,
@@ -124,7 +122,7 @@ export namespace QuoteService {
             description: string,
             sizemetric: string,
             weightmetric: string,
-            cargo?: QuoteService.Cargo.AsObject,
+            cargoList: Array<QuoteService.Cargo.AsObject>,
             rate?: QuoteService.Rate.AsObject,
         }
     }

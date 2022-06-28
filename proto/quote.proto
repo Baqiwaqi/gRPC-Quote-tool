@@ -21,8 +21,8 @@ message QuoteService {
     string carrier = 2;
     string customer = 3;
     string customer_ref = 4;
-    CustomerContact customer_contact = 5;
-    int64 availableDate = 6;
+    repeated CustomerContact customer_contact = 5;
+    string availableDate = 6;
     string product = 7;
     string collectFrom = 8;
     string origin = 9;
@@ -35,7 +35,7 @@ message QuoteService {
     string description = 16;
     string sizeMetric = 17;
     string weightMetric = 18;
-    Cargo cargo = 19;
+    repeated Cargo cargo = 19;
     Rate rate = 20;
   }
 
@@ -44,10 +44,10 @@ message QuoteService {
     string phone = 3;
     string email = 4;
   }
-
+ 
   message Cargo {
     int64 pieces = 1;
-    int64 length = 2;
+    int64 cLength = 2;
     int64 width = 3;
     int64 height = 4;
     int64 grossWeight = 5;
@@ -67,7 +67,7 @@ message QuoteService {
   message QuoteResponse { Quote quote = 1; }
   message QuoteListResponse { repeated Quote quotes = 1; }
   message QuoteDeleteResponse { string response = 1; }
-  
+
   // v2
   // listQuotes
   // streamQuotes

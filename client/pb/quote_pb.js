@@ -63,7 +63,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.quoteTool.QuoteService.Quote = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.quoteTool.QuoteService.Quote.repeatedFields_, null);
 };
 goog.inherits(proto.quoteTool.QuoteService.Quote, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -343,6 +343,13 @@ proto.quoteTool.QuoteService.serializeBinaryToWriter = function(message, writer)
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.quoteTool.QuoteService.Quote.repeatedFields_ = [5,19];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -378,8 +385,9 @@ proto.quoteTool.QuoteService.Quote.toObject = function(includeInstance, msg) {
     carrier: jspb.Message.getFieldWithDefault(msg, 2, ""),
     customer: jspb.Message.getFieldWithDefault(msg, 3, ""),
     customerRef: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    customerContact: (f = msg.getCustomerContact()) && proto.quoteTool.QuoteService.CustomerContact.toObject(includeInstance, f),
-    availabledate: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    customerContactList: jspb.Message.toObjectList(msg.getCustomerContactList(),
+    proto.quoteTool.QuoteService.CustomerContact.toObject, includeInstance),
+    availabledate: jspb.Message.getFieldWithDefault(msg, 6, ""),
     product: jspb.Message.getFieldWithDefault(msg, 7, ""),
     collectfrom: jspb.Message.getFieldWithDefault(msg, 8, ""),
     origin: jspb.Message.getFieldWithDefault(msg, 9, ""),
@@ -392,7 +400,8 @@ proto.quoteTool.QuoteService.Quote.toObject = function(includeInstance, msg) {
     description: jspb.Message.getFieldWithDefault(msg, 16, ""),
     sizemetric: jspb.Message.getFieldWithDefault(msg, 17, ""),
     weightmetric: jspb.Message.getFieldWithDefault(msg, 18, ""),
-    cargo: (f = msg.getCargo()) && proto.quoteTool.QuoteService.Cargo.toObject(includeInstance, f),
+    cargoList: jspb.Message.toObjectList(msg.getCargoList(),
+    proto.quoteTool.QuoteService.Cargo.toObject, includeInstance),
     rate: (f = msg.getRate()) && proto.quoteTool.QuoteService.Rate.toObject(includeInstance, f)
   };
 
@@ -449,10 +458,10 @@ proto.quoteTool.QuoteService.Quote.deserializeBinaryFromReader = function(msg, r
     case 5:
       var value = new proto.quoteTool.QuoteService.CustomerContact;
       reader.readMessage(value,proto.quoteTool.QuoteService.CustomerContact.deserializeBinaryFromReader);
-      msg.setCustomerContact(value);
+      msg.addCustomerContact(value);
       break;
     case 6:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAvailabledate(value);
       break;
     case 7:
@@ -506,7 +515,7 @@ proto.quoteTool.QuoteService.Quote.deserializeBinaryFromReader = function(msg, r
     case 19:
       var value = new proto.quoteTool.QuoteService.Cargo;
       reader.readMessage(value,proto.quoteTool.QuoteService.Cargo.deserializeBinaryFromReader);
-      msg.setCargo(value);
+      msg.addCargo(value);
       break;
     case 20:
       var value = new proto.quoteTool.QuoteService.Rate;
@@ -570,17 +579,17 @@ proto.quoteTool.QuoteService.Quote.serializeBinaryToWriter = function(message, w
       f
     );
   }
-  f = message.getCustomerContact();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getCustomerContactList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
       5,
       f,
       proto.quoteTool.QuoteService.CustomerContact.serializeBinaryToWriter
     );
   }
   f = message.getAvailabledate();
-  if (f !== 0) {
-    writer.writeInt64(
+  if (f.length > 0) {
+    writer.writeString(
       6,
       f
     );
@@ -669,9 +678,9 @@ proto.quoteTool.QuoteService.Quote.serializeBinaryToWriter = function(message, w
       f
     );
   }
-  f = message.getCargo();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getCargoList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
       19,
       f,
       proto.quoteTool.QuoteService.Cargo.serializeBinaryToWriter
@@ -761,57 +770,58 @@ proto.quoteTool.QuoteService.Quote.prototype.setCustomerRef = function(value) {
 
 
 /**
- * optional CustomerContact customer_contact = 5;
- * @return {?proto.quoteTool.QuoteService.CustomerContact}
+ * repeated CustomerContact customer_contact = 5;
+ * @return {!Array<!proto.quoteTool.QuoteService.CustomerContact>}
  */
-proto.quoteTool.QuoteService.Quote.prototype.getCustomerContact = function() {
-  return /** @type{?proto.quoteTool.QuoteService.CustomerContact} */ (
-    jspb.Message.getWrapperField(this, proto.quoteTool.QuoteService.CustomerContact, 5));
+proto.quoteTool.QuoteService.Quote.prototype.getCustomerContactList = function() {
+  return /** @type{!Array<!proto.quoteTool.QuoteService.CustomerContact>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.quoteTool.QuoteService.CustomerContact, 5));
 };
 
 
 /**
- * @param {?proto.quoteTool.QuoteService.CustomerContact|undefined} value
+ * @param {!Array<!proto.quoteTool.QuoteService.CustomerContact>} value
  * @return {!proto.quoteTool.QuoteService.Quote} returns this
 */
-proto.quoteTool.QuoteService.Quote.prototype.setCustomerContact = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+proto.quoteTool.QuoteService.Quote.prototype.setCustomerContactList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 5, value);
 };
 
 
 /**
- * Clears the message field making it undefined.
+ * @param {!proto.quoteTool.QuoteService.CustomerContact=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.quoteTool.QuoteService.CustomerContact}
+ */
+proto.quoteTool.QuoteService.Quote.prototype.addCustomerContact = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.quoteTool.QuoteService.CustomerContact, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
  * @return {!proto.quoteTool.QuoteService.Quote} returns this
  */
-proto.quoteTool.QuoteService.Quote.prototype.clearCustomerContact = function() {
-  return this.setCustomerContact(undefined);
+proto.quoteTool.QuoteService.Quote.prototype.clearCustomerContactList = function() {
+  return this.setCustomerContactList([]);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.quoteTool.QuoteService.Quote.prototype.hasCustomerContact = function() {
-  return jspb.Message.getField(this, 5) != null;
-};
-
-
-/**
- * optional int64 availableDate = 6;
- * @return {number}
+ * optional string availableDate = 6;
+ * @return {string}
  */
 proto.quoteTool.QuoteService.Quote.prototype.getAvailabledate = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /**
- * @param {number} value
+ * @param {string} value
  * @return {!proto.quoteTool.QuoteService.Quote} returns this
  */
 proto.quoteTool.QuoteService.Quote.prototype.setAvailabledate = function(value) {
-  return jspb.Message.setProto3IntField(this, 6, value);
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
@@ -1032,39 +1042,40 @@ proto.quoteTool.QuoteService.Quote.prototype.setWeightmetric = function(value) {
 
 
 /**
- * optional Cargo cargo = 19;
- * @return {?proto.quoteTool.QuoteService.Cargo}
+ * repeated Cargo cargo = 19;
+ * @return {!Array<!proto.quoteTool.QuoteService.Cargo>}
  */
-proto.quoteTool.QuoteService.Quote.prototype.getCargo = function() {
-  return /** @type{?proto.quoteTool.QuoteService.Cargo} */ (
-    jspb.Message.getWrapperField(this, proto.quoteTool.QuoteService.Cargo, 19));
+proto.quoteTool.QuoteService.Quote.prototype.getCargoList = function() {
+  return /** @type{!Array<!proto.quoteTool.QuoteService.Cargo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.quoteTool.QuoteService.Cargo, 19));
 };
 
 
 /**
- * @param {?proto.quoteTool.QuoteService.Cargo|undefined} value
+ * @param {!Array<!proto.quoteTool.QuoteService.Cargo>} value
  * @return {!proto.quoteTool.QuoteService.Quote} returns this
 */
-proto.quoteTool.QuoteService.Quote.prototype.setCargo = function(value) {
-  return jspb.Message.setWrapperField(this, 19, value);
+proto.quoteTool.QuoteService.Quote.prototype.setCargoList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 19, value);
 };
 
 
 /**
- * Clears the message field making it undefined.
+ * @param {!proto.quoteTool.QuoteService.Cargo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.quoteTool.QuoteService.Cargo}
+ */
+proto.quoteTool.QuoteService.Quote.prototype.addCargo = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 19, opt_value, proto.quoteTool.QuoteService.Cargo, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
  * @return {!proto.quoteTool.QuoteService.Quote} returns this
  */
-proto.quoteTool.QuoteService.Quote.prototype.clearCargo = function() {
-  return this.setCargo(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.quoteTool.QuoteService.Quote.prototype.hasCargo = function() {
-  return jspb.Message.getField(this, 19) != null;
+proto.quoteTool.QuoteService.Quote.prototype.clearCargoList = function() {
+  return this.setCargoList([]);
 };
 
 

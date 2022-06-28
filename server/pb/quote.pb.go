@@ -63,26 +63,26 @@ type QuoteService_Quote struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id              string                        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Carrier         string                        `protobuf:"bytes,2,opt,name=carrier,proto3" json:"carrier,omitempty"`
-	Customer        string                        `protobuf:"bytes,3,opt,name=customer,proto3" json:"customer,omitempty"`
-	CustomerRef     string                        `protobuf:"bytes,4,opt,name=customer_ref,json=customerRef,proto3" json:"customer_ref,omitempty"`
-	CustomerContact *QuoteService_CustomerContact `protobuf:"bytes,5,opt,name=customer_contact,json=customerContact,proto3" json:"customer_contact,omitempty"`
-	AvailableDate   int64                         `protobuf:"varint,6,opt,name=availableDate,proto3" json:"availableDate,omitempty"`
-	Product         string                        `protobuf:"bytes,7,opt,name=product,proto3" json:"product,omitempty"`
-	CollectFrom     string                        `protobuf:"bytes,8,opt,name=collectFrom,proto3" json:"collectFrom,omitempty"`
-	Origin          string                        `protobuf:"bytes,9,opt,name=origin,proto3" json:"origin,omitempty"`
-	Destination     string                        `protobuf:"bytes,10,opt,name=destination,proto3" json:"destination,omitempty"`
-	CargoType       string                        `protobuf:"bytes,11,opt,name=cargoType,proto3" json:"cargoType,omitempty"`
-	IsDangerous     bool                          `protobuf:"varint,12,opt,name=isDangerous,proto3" json:"isDangerous,omitempty"`
-	CanBeTurned     bool                          `protobuf:"varint,13,opt,name=canBeTurned,proto3" json:"canBeTurned,omitempty"`
-	IsKnown         bool                          `protobuf:"varint,14,opt,name=isKnown,proto3" json:"isKnown,omitempty"`
-	AircraftOnly    bool                          `protobuf:"varint,15,opt,name=aircraftOnly,proto3" json:"aircraftOnly,omitempty"`
-	Description     string                        `protobuf:"bytes,16,opt,name=description,proto3" json:"description,omitempty"`
-	SizeMetric      string                        `protobuf:"bytes,17,opt,name=sizeMetric,proto3" json:"sizeMetric,omitempty"`
-	WeightMetric    string                        `protobuf:"bytes,18,opt,name=weightMetric,proto3" json:"weightMetric,omitempty"`
-	Cargo           *QuoteService_Cargo           `protobuf:"bytes,19,opt,name=cargo,proto3" json:"cargo,omitempty"`
-	Rate            *QuoteService_Rate            `protobuf:"bytes,20,opt,name=rate,proto3" json:"rate,omitempty"`
+	Id              string                          `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Carrier         string                          `protobuf:"bytes,2,opt,name=carrier,proto3" json:"carrier,omitempty"`
+	Customer        string                          `protobuf:"bytes,3,opt,name=customer,proto3" json:"customer,omitempty"`
+	CustomerRef     string                          `protobuf:"bytes,4,opt,name=customer_ref,json=customerRef,proto3" json:"customer_ref,omitempty"`
+	CustomerContact []*QuoteService_CustomerContact `protobuf:"bytes,5,rep,name=customer_contact,json=customerContact,proto3" json:"customer_contact,omitempty"`
+	AvailableDate   string                          `protobuf:"bytes,6,opt,name=availableDate,proto3" json:"availableDate,omitempty"`
+	Product         string                          `protobuf:"bytes,7,opt,name=product,proto3" json:"product,omitempty"`
+	CollectFrom     string                          `protobuf:"bytes,8,opt,name=collectFrom,proto3" json:"collectFrom,omitempty"`
+	Origin          string                          `protobuf:"bytes,9,opt,name=origin,proto3" json:"origin,omitempty"`
+	Destination     string                          `protobuf:"bytes,10,opt,name=destination,proto3" json:"destination,omitempty"`
+	CargoType       string                          `protobuf:"bytes,11,opt,name=cargoType,proto3" json:"cargoType,omitempty"`
+	IsDangerous     bool                            `protobuf:"varint,12,opt,name=isDangerous,proto3" json:"isDangerous,omitempty"`
+	CanBeTurned     bool                            `protobuf:"varint,13,opt,name=canBeTurned,proto3" json:"canBeTurned,omitempty"`
+	IsKnown         bool                            `protobuf:"varint,14,opt,name=isKnown,proto3" json:"isKnown,omitempty"`
+	AircraftOnly    bool                            `protobuf:"varint,15,opt,name=aircraftOnly,proto3" json:"aircraftOnly,omitempty"`
+	Description     string                          `protobuf:"bytes,16,opt,name=description,proto3" json:"description,omitempty"`
+	SizeMetric      string                          `protobuf:"bytes,17,opt,name=sizeMetric,proto3" json:"sizeMetric,omitempty"`
+	WeightMetric    string                          `protobuf:"bytes,18,opt,name=weightMetric,proto3" json:"weightMetric,omitempty"`
+	Cargo           []*QuoteService_Cargo           `protobuf:"bytes,19,rep,name=cargo,proto3" json:"cargo,omitempty"`
+	Rate            *QuoteService_Rate              `protobuf:"bytes,20,opt,name=rate,proto3" json:"rate,omitempty"`
 }
 
 func (x *QuoteService_Quote) Reset() {
@@ -145,18 +145,18 @@ func (x *QuoteService_Quote) GetCustomerRef() string {
 	return ""
 }
 
-func (x *QuoteService_Quote) GetCustomerContact() *QuoteService_CustomerContact {
+func (x *QuoteService_Quote) GetCustomerContact() []*QuoteService_CustomerContact {
 	if x != nil {
 		return x.CustomerContact
 	}
 	return nil
 }
 
-func (x *QuoteService_Quote) GetAvailableDate() int64 {
+func (x *QuoteService_Quote) GetAvailableDate() string {
 	if x != nil {
 		return x.AvailableDate
 	}
-	return 0
+	return ""
 }
 
 func (x *QuoteService_Quote) GetProduct() string {
@@ -243,7 +243,7 @@ func (x *QuoteService_Quote) GetWeightMetric() string {
 	return ""
 }
 
-func (x *QuoteService_Quote) GetCargo() *QuoteService_Cargo {
+func (x *QuoteService_Quote) GetCargo() []*QuoteService_Cargo {
 	if x != nil {
 		return x.Cargo
 	}
@@ -727,12 +727,12 @@ var file_quote_proto_rawDesc = []byte{
 	0x74, 0x6f, 0x6d, 0x65, 0x72, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x0b, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x66, 0x12, 0x52, 0x0a, 0x10,
 	0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x65, 0x54, 0x6f,
+	0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x65, 0x54, 0x6f,
 	0x6f, 0x6c, 0x2e, 0x51, 0x75, 0x6f, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
 	0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x52,
 	0x0f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74,
 	0x12, 0x24, 0x0a, 0x0d, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x44, 0x61, 0x74,
-	0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0d, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62,
+	0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62,
 	0x6c, 0x65, 0x44, 0x61, 0x74, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
 	0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74,
 	0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x46, 0x72, 0x6f, 0x6d, 0x18,
@@ -757,7 +757,7 @@ var file_quote_proto_rawDesc = []byte{
 	0x28, 0x09, 0x52, 0x0a, 0x73, 0x69, 0x7a, 0x65, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x12, 0x22,
 	0x0a, 0x0c, 0x77, 0x65, 0x69, 0x67, 0x68, 0x74, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x18, 0x12,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x77, 0x65, 0x69, 0x67, 0x68, 0x74, 0x4d, 0x65, 0x74, 0x72,
-	0x69, 0x63, 0x12, 0x33, 0x0a, 0x05, 0x63, 0x61, 0x72, 0x67, 0x6f, 0x18, 0x13, 0x20, 0x01, 0x28,
+	0x69, 0x63, 0x12, 0x33, 0x0a, 0x05, 0x63, 0x61, 0x72, 0x67, 0x6f, 0x18, 0x13, 0x20, 0x03, 0x28,
 	0x0b, 0x32, 0x1d, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x65, 0x54, 0x6f, 0x6f, 0x6c, 0x2e, 0x51, 0x75,
 	0x6f, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x43, 0x61, 0x72, 0x67, 0x6f,
 	0x52, 0x05, 0x63, 0x61, 0x72, 0x67, 0x6f, 0x12, 0x30, 0x0a, 0x04, 0x72, 0x61, 0x74, 0x65, 0x18,
