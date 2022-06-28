@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package quoteTool;
+
+option go_package = "github.com/baqiwaqi/quote-service";
+
+service QuoteTool {
+  // v1
+  rpc GetQuote(QuoteService.QuoteRequest) returns ( QuoteService.QuoteResponse);
+  rpc CreateQuote(QuoteService.NoParams) returns (QuoteService.QuoteResponse);
+  rpc UpdateQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
+  rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
+  // v2
+  // listQuotes
+  // streamQuotes
+}
+
+message QuoteService {
+  message Quote {
+    string id = 1;
+    string carrier = 2;
+    string customer = 3;
+    string customer_ref = 4;
+    CustomerContact customer_contact = 5;
+    int64 availableDate = 6;
+    string product = 7;
+    string collectFrom = 8;
+    string origin = 9;
+    string destination = 10;
+    string cargoType = 11;
+    bool isDangerous = 12;
+    bool canBeTurned = 13;
+    bool isKnown = 14;
+    bool aircraftOnly = 15;
+    string description = 16;
+    string sizeMetric = 17;
+    string weightMetric = 18;
+    Cargo cargo = 19;
+    Rate rate = 20;
+  }
+
+  message CustomerContact {
+    string name = 2;
+    string phone = 3;
+    string email = 4;
+  }
+
+  message Cargo {
+    int64 pieces = 1;
+    int64 length = 2;
+    int64 width = 3;
+    int64 height = 4;
+    int64 grossWeight = 5;
+  }
+  message Rate {
+    string on = 1;
+    int64 constMin = 2;
+    int64 constRate = 3;
+    int64 saleMin = 4;
+    string currency = 5;
+  }
+
+  message NoParams {}
+  // v1
+  message QuoteRequest { string id = 1; }
+  message QuoteResponse { Quote quote = 1; }
+  // v2
+  // listQuotes
+  // streamQuotes
+}
