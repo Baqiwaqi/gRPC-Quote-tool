@@ -4,15 +4,15 @@
 var grpc = require('@grpc/grpc-js');
 var quote_pb = require('./quote_pb.js');
 
-function serialize_quoteTool_QuoteService_NoParams(arg) {
-  if (!(arg instanceof quote_pb.QuoteService.NoParams)) {
-    throw new Error('Expected argument of type quoteTool.QuoteService.NoParams');
+function serialize_quoteTool_QuoteService_QuoteListResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuoteListResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteListResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_quoteTool_QuoteService_NoParams(buffer_arg) {
-  return quote_pb.QuoteService.NoParams.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_quoteTool_QuoteService_QuoteListResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuoteListResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_quoteTool_QuoteService_QuoteRequest(arg) {
@@ -55,12 +55,12 @@ getQuote: {
     path: '/quoteTool.QuoteTool/CreateQuote',
     requestStream: false,
     responseStream: false,
-    requestType: quote_pb.QuoteService.NoParams,
-    responseType: quote_pb.QuoteService.QuoteResponse,
-    requestSerialize: serialize_quoteTool_QuoteService_NoParams,
-    requestDeserialize: deserialize_quoteTool_QuoteService_NoParams,
-    responseSerialize: serialize_quoteTool_QuoteService_QuoteResponse,
-    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteResponse,
+    requestType: quote_pb.QuoteService.QuoteRequest,
+    responseType: quote_pb.QuoteService.QuoteListResponse,
+    requestSerialize: serialize_quoteTool_QuoteService_QuoteRequest,
+    requestDeserialize: deserialize_quoteTool_QuoteService_QuoteRequest,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteListResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteListResponse,
   },
   updateQuote: {
     path: '/quoteTool.QuoteTool/UpdateQuote',

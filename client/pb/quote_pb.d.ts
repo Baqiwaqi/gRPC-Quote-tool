@@ -298,4 +298,27 @@ export namespace QuoteService {
         }
     }
 
+    export class QuoteListResponse extends jspb.Message { 
+        clearQuotesList(): void;
+        getQuotesList(): Array<QuoteService.Quote>;
+        setQuotesList(value: Array<QuoteService.Quote>): QuoteListResponse;
+        addQuotes(value?: QuoteService.Quote, index?: number): QuoteService.Quote;
+
+
+        serializeBinary(): Uint8Array;
+        toObject(includeInstance?: boolean): QuoteListResponse.AsObject;
+        static toObject(includeInstance: boolean, msg: QuoteListResponse): QuoteListResponse.AsObject;
+        static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+        static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+        static serializeBinaryToWriter(message: QuoteListResponse, writer: jspb.BinaryWriter): void;
+        static deserializeBinary(bytes: Uint8Array): QuoteListResponse;
+        static deserializeBinaryFromReader(message: QuoteListResponse, reader: jspb.BinaryReader): QuoteListResponse;
+    }
+
+    export namespace QuoteListResponse {
+        export type AsObject = {
+            quotesList: Array<QuoteService.Quote.AsObject>,
+        }
+    }
+
 }

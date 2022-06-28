@@ -21,7 +21,8 @@ type QuoteServer struct {
 
 // var with errorss
 var (
-	ErrQuoteNotFound = status.Error(codes.NotFound, "Flight not found")
+	ErrQuoteNotFound     = status.Error(codes.NotFound, "Flight not found")
+	ErrQuoteCreateFailed = status.Error(codes.Internal, "Failed to create quote")
 )
 
 // Mock data soon to be replaced by a database firestore
@@ -74,6 +75,55 @@ func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequ
 		}
 	}
 	return nil, ErrQuoteNotFound
+}
+
+func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteListResponse, error) {
+	// append quote to quotes
+	log.Printf("Creating quote: %v", req.Id)
+	// set id to quote
+	// mock quote data
+	var quote = &pb.QuoteService_Quote{
+		Id:          req.Id,
+		Carrier:     "UPS",
+		Customer:    "John Doe",
+		CustomerRef: "12345",
+		CustomerContact: &pb.QuoteService_CustomerContact{
+			Name:  "John Doe",
+			Phone: "555-555-5555",
+			Email: "test@mail.com",
+		},
+		AvailableDate: 124368769,
+		Product:       "Product 1",
+		CollectFrom:   "123 Main St",
+		Origin:        "AMS",
+		Destination:   "LAX",
+		CargoType:     "Container",
+		IsDangerous:   false,
+		CanBeTurned:   false,
+		IsKnown:       false,
+		AircraftOnly:  false,
+		Description:   "This is a description for a newly create quote",
+		SizeMetric:    "centimeters",
+		WeightMetric:  "kilograms",
+		Cargo: &pb.QuoteService_Cargo{
+			Pieces:      12,
+			Length:      100,
+			Width:       100,
+			Height:      100,
+			GrossWeight: 350,
+		},
+		Rate: &pb.QuoteService_Rate{
+			On:        "chargeable",
+			CostMin:   120,
+			CostRate:  1,
+			SalesMin:  120,
+			SalesRate: 1.48,
+			Currency:  "EUR",
+		},
+	}
+	quotes = append(quotes, quote)
+	return &pb.QuoteService_QuoteListResponse{Quotes: quotes}, nil
+	// return nil, ErrQuoteCreateFailed
 }
 
 func main() {
