@@ -54,10 +54,11 @@ message QuoteService {
   }
   message Rate {
     string on = 1;
-    int64 constMin = 2;
-    int64 constRate = 3;
-    int64 saleMin = 4;
-    string currency = 5;
+    float costMin = 2;
+    float costRate = 3;
+    float salesMin = 4;
+    float salesRate = 5;
+    string currency = 6;
   }
 
   message NoParams {}

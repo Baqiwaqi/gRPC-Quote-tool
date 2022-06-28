@@ -199,14 +199,17 @@ export namespace QuoteService {
         getOn(): string;
         setOn(value: string): Rate;
 
-        getConstmin(): number;
-        setConstmin(value: number): Rate;
+        getCostmin(): number;
+        setCostmin(value: number): Rate;
 
-        getConstrate(): number;
-        setConstrate(value: number): Rate;
+        getCostrate(): number;
+        setCostrate(value: number): Rate;
 
-        getSalemin(): number;
-        setSalemin(value: number): Rate;
+        getSalesmin(): number;
+        setSalesmin(value: number): Rate;
+
+        getSalesrate(): number;
+        setSalesrate(value: number): Rate;
 
         getCurrency(): string;
         setCurrency(value: string): Rate;
@@ -225,9 +228,10 @@ export namespace QuoteService {
     export namespace Rate {
         export type AsObject = {
             on: string,
-            constmin: number,
-            constrate: number,
-            salemin: number,
+            costmin: number,
+            costrate: number,
+            salesmin: number,
+            salesrate: number,
             currency: string,
         }
     }
