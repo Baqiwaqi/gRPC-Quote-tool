@@ -41,13 +41,38 @@ func CreateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	return nil
 }
 
+func checkifQuoteExists(s *firestore.Client, quote *pb.QuoteService_Quote) error {
+	ctx := context.Background()
+	_, err := s.Collection("quotes").Doc(quote.Id).Get(ctx)
+	if err != nil {
+		log.Printf("Error getting document: %v", err)
+		return ErrQuoteNotFound
+	}
+	return nil
+}
+
 // update is set with merge enabled
 func UpdateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) error {
 	ctx := context.Background()
-	_, err := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
+	err := checkifQuoteExists(s, quote)
 	if err != nil {
-		log.Println(err)
+		return err
+	}
+	// update quote with set
+	_, setError := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
+	if setError != nil {
 		return ErrFirebase
+	}
+	return nil
+}
+
+// TODO: error handling iof quote is already deleted or excist
+func DeleteQuoteInFirestore(s *firestore.Client, docId string) error {
+	ctx := context.Background()
+	_, err := s.Collection("quotes").Doc(docId).Delete(ctx)
+	if err != nil {
+		log.Printf("Error getting document: %v", err)
+		return ErrQuoteNotFound
 	}
 	return nil
 }

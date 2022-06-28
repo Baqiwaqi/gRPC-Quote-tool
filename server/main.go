@@ -55,14 +55,11 @@ func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote)
 }
 
 func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {
-	log.Printf("Deleting quote: %v", req.Id)
-	// for i, quote := range quotes {
-	// 	if quote.Id == req.Id {
-	// 		quotes = append(quotes[:i], quotes[i+1:]...)
-	// 		return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote %v is succesfully deleted!"}, nil
-	// 	}
-	// }
-	return nil, ErrQuoteNotFound
+	err := db.DeleteQuoteInFirestore(s.client, req.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote succefully deleted"}, nil
 }
 
 // Firebase
