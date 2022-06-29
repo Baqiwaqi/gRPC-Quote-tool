@@ -82,7 +82,6 @@ func DeleteQuoteInFirestore(s *firestore.Client, documentId string) error {
 	return nil
 }
 
-//get all documents from quotes
 func GetQuoteListFromFirestore(c context.Context, s *firestore.Client) ([]*pb.QuoteService_Quote, error) {
 	iter := s.Collection("quotes").Documents(c)
 	var quotes []*pb.QuoteService_Quote

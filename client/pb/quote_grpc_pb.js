@@ -156,11 +156,11 @@ getQuoteList: {
     requestStream: false,
     responseStream: true,
     requestType: quote_pb.QuoteService.NoParams,
-    responseType: quote_pb.QuoteService.Quote,
+    responseType: quote_pb.QuoteService.QuoteResponse,
     requestSerialize: serialize_quoteTool_QuoteService_NoParams,
     requestDeserialize: deserialize_quoteTool_QuoteService_NoParams,
-    responseSerialize: serialize_quoteTool_QuoteService_Quote,
-    responseDeserialize: deserialize_quoteTool_QuoteService_Quote,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteResponse,
   },
   // streamQuotes
 };

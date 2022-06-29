@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/bawiwaqi/quote-service/db"
@@ -65,8 +66,52 @@ func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoPar
 	if err != nil {
 		return nil, err
 	}
-
 	return &pb.QuoteService_QuotesListResponse{Quotes: quotes}, nil
+}
+
+// for document streaming
+func sendStream(doc *firestore.DocumentSnapshot, stream pb.QuoteTool_StreamQuotesServer) error {
+	var quote *pb.QuoteService_Quote
+	doc.DataTo(&quote)
+	if err := stream.Send(&pb.QuoteService_QuoteResponse{Quote: quote}); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *QuoteServer) StreamQuotes(req *pb.QuoteService_NoParams, stream pb.QuoteTool_StreamQuotesServer) error {
+	c := context.Background()
+	ctx, cancel := context.WithTimeout(c, 180*time.Second)
+	defer cancel()
+
+	iter := s.client.Collection("quotes").Snapshots(ctx)
+	for {
+		snap, err := iter.Next()
+		// DeadlineExceeded will be returned when ctx is cancelled.
+		if status.Code(err) == codes.DeadlineExceeded {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Snapsshots.Next: %v", err)
+			return err
+		}
+		if snap != nil {
+			// return quote that is added, modified or removed
+			for _, change := range snap.Changes {
+				switch change.Kind {
+				case firestore.DocumentAdded:
+					sendStream(change.Doc, stream)
+					log.Printf("New Quote")
+				case firestore.DocumentModified:
+					sendStream(change.Doc, stream)
+					log.Printf("Modified Quote")
+				case firestore.DocumentRemoved:
+					sendStream(change.Doc, stream)
+					log.Printf("Removed Quote")
+				}
+			}
+		}
+	}
 }
 
 func main() {
