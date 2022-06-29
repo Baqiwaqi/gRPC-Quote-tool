@@ -16,9 +16,9 @@ var (
 	ErrFirebase      = status.Error(codes.Internal, "Error firebase internal")
 )
 
-func GetQuoteFromFirestore(s *firestore.Client) (*pb.QuoteService_Quote, error) {
+func GetQuoteFromFirestore(s *firestore.Client, documentId string) (*pb.QuoteService_Quote, error) {
 	ctx := context.Background()
-	docSnap, err := s.Collection("quotes").Doc("VGWLJShytf0FzohUrbzt").Get(ctx)
+	docSnap, err := s.Collection("quotes").Doc(documentId).Get(ctx)
 	if err != nil {
 		log.Printf("Error getting document: %v", err)
 		return nil, ErrFirebase
@@ -41,9 +41,9 @@ func CreateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	return nil
 }
 
-func checkifQuoteExists(s *firestore.Client, quote *pb.QuoteService_Quote) error {
+func checkifQuoteExists(s *firestore.Client, documentId string) error {
 	ctx := context.Background()
-	_, err := s.Collection("quotes").Doc(quote.Id).Get(ctx)
+	_, err := s.Collection("quotes").Doc(documentId).Get(ctx)
 	if err != nil {
 		log.Printf("Error getting document: %v", err)
 		return ErrQuoteNotFound
@@ -54,23 +54,28 @@ func checkifQuoteExists(s *firestore.Client, quote *pb.QuoteService_Quote) error
 // update is set with merge enabled
 func UpdateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) error {
 	ctx := context.Background()
-	err := checkifQuoteExists(s, quote)
+	err := checkifQuoteExists(s, quote.Id)
 	if err != nil {
 		return err
 	}
 	// update quote with set
-	_, setError := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
-	if setError != nil {
+	_, updateError := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
+	if updateError != nil {
+		log.Printf("Error getting document: %v", err)
 		return ErrFirebase
 	}
 	return nil
 }
 
 // TODO: error handling iof quote is already deleted or excist
-func DeleteQuoteInFirestore(s *firestore.Client, docId string) error {
+func DeleteQuoteInFirestore(s *firestore.Client, documentId string) error {
 	ctx := context.Background()
-	_, err := s.Collection("quotes").Doc(docId).Delete(ctx)
+	err := checkifQuoteExists(s, documentId)
 	if err != nil {
+		return err
+	}
+	_, deleteErr := s.Collection("quotes").Doc(documentId).Delete(ctx)
+	if deleteErr != nil {
 		log.Printf("Error getting document: %v", err)
 		return ErrQuoteNotFound
 	}
