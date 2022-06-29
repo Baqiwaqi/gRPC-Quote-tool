@@ -11,7 +11,7 @@ service QuoteTool {
   rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteUpdateResponse);
   rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
-  // listQuotes
+  rpc GetQuoteList(QuoteService.NoParams) returns (QuoteService.QuotesListResponse);
   // streamQuotes
 }
 
@@ -70,7 +70,7 @@ message QuoteService {
   message QuoteDeleteResponse { string response = 1; }
 
   // v2
-  // listQuotes
+  message QuotesListResponse { repeated Quote quote = 1; }
   // message QuoteListResponse { repeated Quote quotes = 1; }
   // streamQuotes
 }

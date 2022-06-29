@@ -27,6 +27,8 @@ type QuoteToolClient interface {
 	CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteCreateResponse, error)
 	UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteUpdateResponse, error)
 	DeleteQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteDeleteResponse, error)
+	// v2
+	GetQuoteList(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (*QuoteService_QuotesListResponse, error)
 }
 
 type quoteToolClient struct {
@@ -73,6 +75,15 @@ func (c *quoteToolClient) DeleteQuote(ctx context.Context, in *QuoteService_Quot
 	return out, nil
 }
 
+func (c *quoteToolClient) GetQuoteList(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (*QuoteService_QuotesListResponse, error) {
+	out := new(QuoteService_QuotesListResponse)
+	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/GetQuoteList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QuoteToolServer is the server API for QuoteTool service.
 // All implementations must embed UnimplementedQuoteToolServer
 // for forward compatibility
@@ -82,6 +93,8 @@ type QuoteToolServer interface {
 	CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteCreateResponse, error)
 	UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteUpdateResponse, error)
 	DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error)
+	// v2
+	GetQuoteList(context.Context, *QuoteService_NoParams) (*QuoteService_QuotesListResponse, error)
 	mustEmbedUnimplementedQuoteToolServer()
 }
 
@@ -100,6 +113,9 @@ func (UnimplementedQuoteToolServer) UpdateQuote(context.Context, *QuoteService_Q
 }
 func (UnimplementedQuoteToolServer) DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteQuote not implemented")
+}
+func (UnimplementedQuoteToolServer) GetQuoteList(context.Context, *QuoteService_NoParams) (*QuoteService_QuotesListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuoteList not implemented")
 }
 func (UnimplementedQuoteToolServer) mustEmbedUnimplementedQuoteToolServer() {}
 
@@ -186,6 +202,24 @@ func _QuoteTool_DeleteQuote_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _QuoteTool_GetQuoteList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuoteService_NoParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuoteToolServer).GetQuoteList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/quoteTool.QuoteTool/GetQuoteList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuoteToolServer).GetQuoteList(ctx, req.(*QuoteService_NoParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // QuoteTool_ServiceDesc is the grpc.ServiceDesc for QuoteTool service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -208,6 +242,10 @@ var QuoteTool_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteQuote",
 			Handler:    _QuoteTool_DeleteQuote_Handler,
+		},
+		{
+			MethodName: "GetQuoteList",
+			Handler:    _QuoteTool_GetQuoteList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

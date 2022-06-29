@@ -359,4 +359,27 @@ export namespace QuoteService {
         }
     }
 
+    export class QuotesListResponse extends jspb.Message { 
+        clearQuoteList(): void;
+        getQuoteList(): Array<QuoteService.Quote>;
+        setQuoteList(value: Array<QuoteService.Quote>): QuotesListResponse;
+        addQuote(value?: QuoteService.Quote, index?: number): QuoteService.Quote;
+
+
+        serializeBinary(): Uint8Array;
+        toObject(includeInstance?: boolean): QuotesListResponse.AsObject;
+        static toObject(includeInstance: boolean, msg: QuotesListResponse): QuotesListResponse.AsObject;
+        static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+        static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+        static serializeBinaryToWriter(message: QuotesListResponse, writer: jspb.BinaryWriter): void;
+        static deserializeBinary(bytes: Uint8Array): QuotesListResponse;
+        static deserializeBinaryFromReader(message: QuotesListResponse, reader: jspb.BinaryReader): QuotesListResponse;
+    }
+
+    export namespace QuotesListResponse {
+        export type AsObject = {
+            quoteList: Array<QuoteService.Quote.AsObject>,
+        }
+    }
+
 }

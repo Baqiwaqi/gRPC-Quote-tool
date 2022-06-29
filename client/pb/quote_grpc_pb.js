@@ -4,6 +4,17 @@
 var grpc = require('@grpc/grpc-js');
 var quote_pb = require('./quote_pb.js');
 
+function serialize_quoteTool_QuoteService_NoParams(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.NoParams)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.NoParams');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_NoParams(buffer_arg) {
+  return quote_pb.QuoteService.NoParams.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_quoteTool_QuoteService_Quote(arg) {
   if (!(arg instanceof quote_pb.QuoteService.Quote)) {
     throw new Error('Expected argument of type quoteTool.QuoteService.Quote');
@@ -70,6 +81,17 @@ function deserialize_quoteTool_QuoteService_QuoteUpdateResponse(buffer_arg) {
   return quote_pb.QuoteService.QuoteUpdateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_quoteTool_QuoteService_QuotesListResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuotesListResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuotesListResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_QuotesListResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuotesListResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var QuoteToolService = exports.QuoteToolService = {
   // v1
@@ -118,8 +140,18 @@ getQuote: {
     responseDeserialize: deserialize_quoteTool_QuoteService_QuoteDeleteResponse,
   },
   // v2
-// listQuotes
-// streamQuotes
+getQuoteList: {
+    path: '/quoteTool.QuoteTool/GetQuoteList',
+    requestStream: false,
+    responseStream: false,
+    requestType: quote_pb.QuoteService.NoParams,
+    responseType: quote_pb.QuoteService.QuotesListResponse,
+    requestSerialize: serialize_quoteTool_QuoteService_NoParams,
+    requestDeserialize: deserialize_quoteTool_QuoteService_NoParams,
+    responseSerialize: serialize_quoteTool_QuoteService_QuotesListResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuotesListResponse,
+  },
+  // streamQuotes
 };
 
 exports.QuoteToolClient = grpc.makeGenericClientConstructor(QuoteToolService);
