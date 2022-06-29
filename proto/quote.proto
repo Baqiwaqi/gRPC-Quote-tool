@@ -70,7 +70,7 @@ message QuoteService {
   message QuoteDeleteResponse { string response = 1; }
 
   // v2
-  message QuotesListResponse { repeated Quote quote = 1; }
+  message QuotesListResponse { repeated Quote quotes = 1; }
   // message QuoteListResponse { repeated Quote quotes = 1; }
   // streamQuotes
 }

@@ -60,6 +60,15 @@ func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteR
 	return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote succefully deleted"}, nil
 }
 
+func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoParams) (*pb.QuoteService_QuotesListResponse, error) {
+	quotes, err := db.GetQuoteListFromFirestore(c, s.client)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.QuoteService_QuotesListResponse{Quotes: quotes}, nil
+}
+
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {

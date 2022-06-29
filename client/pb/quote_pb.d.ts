@@ -360,10 +360,10 @@ export namespace QuoteService {
     }
 
     export class QuotesListResponse extends jspb.Message { 
-        clearQuoteList(): void;
-        getQuoteList(): Array<QuoteService.Quote>;
-        setQuoteList(value: Array<QuoteService.Quote>): QuotesListResponse;
-        addQuote(value?: QuoteService.Quote, index?: number): QuoteService.Quote;
+        clearQuotesList(): void;
+        getQuotesList(): Array<QuoteService.Quote>;
+        setQuotesList(value: Array<QuoteService.Quote>): QuotesListResponse;
+        addQuotes(value?: QuoteService.Quote, index?: number): QuoteService.Quote;
 
 
         serializeBinary(): Uint8Array;
@@ -378,7 +378,7 @@ export namespace QuoteService {
 
     export namespace QuotesListResponse {
         export type AsObject = {
-            quoteList: Array<QuoteService.Quote.AsObject>,
+            quotesList: Array<QuoteService.Quote.AsObject>,
         }
     }
 

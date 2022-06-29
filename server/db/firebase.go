@@ -6,6 +6,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	pb "github.com/bawiwaqi/quote-service/pb"
+	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -67,7 +68,6 @@ func UpdateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	return nil
 }
 
-// TODO: error handling iof quote is already deleted or excist
 func DeleteQuoteInFirestore(s *firestore.Client, documentId string) error {
 	ctx := context.Background()
 	err := checkifQuoteExists(s, documentId)
@@ -80,4 +80,23 @@ func DeleteQuoteInFirestore(s *firestore.Client, documentId string) error {
 		return ErrQuoteNotFound
 	}
 	return nil
+}
+
+//get all documents from quotes
+func GetQuoteListFromFirestore(c context.Context, s *firestore.Client) ([]*pb.QuoteService_Quote, error) {
+	iter := s.Collection("quotes").Documents(c)
+	var quotes []*pb.QuoteService_Quote
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		var quote *pb.QuoteService_Quote
+		doc.DataTo(&quote)
+		quotes = append(quotes, quote)
+	}
+	return quotes, nil
 }

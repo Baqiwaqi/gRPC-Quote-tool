@@ -2691,7 +2691,7 @@ proto.quoteTool.QuoteService.QuotesListResponse.prototype.toObject = function(op
  */
 proto.quoteTool.QuoteService.QuotesListResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    quoteList: jspb.Message.toObjectList(msg.getQuoteList(),
+    quotesList: jspb.Message.toObjectList(msg.getQuotesList(),
     proto.quoteTool.QuoteService.Quote.toObject, includeInstance)
   };
 
@@ -2732,7 +2732,7 @@ proto.quoteTool.QuoteService.QuotesListResponse.deserializeBinaryFromReader = fu
     case 1:
       var value = new proto.quoteTool.QuoteService.Quote;
       reader.readMessage(value,proto.quoteTool.QuoteService.Quote.deserializeBinaryFromReader);
-      msg.addQuote(value);
+      msg.addQuotes(value);
       break;
     default:
       reader.skipField();
@@ -2763,7 +2763,7 @@ proto.quoteTool.QuoteService.QuotesListResponse.prototype.serializeBinary = func
  */
 proto.quoteTool.QuoteService.QuotesListResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getQuoteList();
+  f = message.getQuotesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
@@ -2775,10 +2775,10 @@ proto.quoteTool.QuoteService.QuotesListResponse.serializeBinaryToWriter = functi
 
 
 /**
- * repeated Quote quote = 1;
+ * repeated Quote quotes = 1;
  * @return {!Array<!proto.quoteTool.QuoteService.Quote>}
  */
-proto.quoteTool.QuoteService.QuotesListResponse.prototype.getQuoteList = function() {
+proto.quoteTool.QuoteService.QuotesListResponse.prototype.getQuotesList = function() {
   return /** @type{!Array<!proto.quoteTool.QuoteService.Quote>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.quoteTool.QuoteService.Quote, 1));
 };
@@ -2788,7 +2788,7 @@ proto.quoteTool.QuoteService.QuotesListResponse.prototype.getQuoteList = functio
  * @param {!Array<!proto.quoteTool.QuoteService.Quote>} value
  * @return {!proto.quoteTool.QuoteService.QuotesListResponse} returns this
 */
-proto.quoteTool.QuoteService.QuotesListResponse.prototype.setQuoteList = function(value) {
+proto.quoteTool.QuoteService.QuotesListResponse.prototype.setQuotesList = function(value) {
   return jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
@@ -2798,7 +2798,7 @@ proto.quoteTool.QuoteService.QuotesListResponse.prototype.setQuoteList = functio
  * @param {number=} opt_index
  * @return {!proto.quoteTool.QuoteService.Quote}
  */
-proto.quoteTool.QuoteService.QuotesListResponse.prototype.addQuote = function(opt_value, opt_index) {
+proto.quoteTool.QuoteService.QuotesListResponse.prototype.addQuotes = function(opt_value, opt_index) {
   return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.quoteTool.QuoteService.Quote, opt_index);
 };
 
@@ -2807,8 +2807,8 @@ proto.quoteTool.QuoteService.QuotesListResponse.prototype.addQuote = function(op
  * Clears the list making it empty but non-null.
  * @return {!proto.quoteTool.QuoteService.QuotesListResponse} returns this
  */
-proto.quoteTool.QuoteService.QuotesListResponse.prototype.clearQuoteList = function() {
-  return this.setQuoteList([]);
+proto.quoteTool.QuoteService.QuotesListResponse.prototype.clearQuotesList = function() {
+  return this.setQuotesList([]);
 };
 
 
