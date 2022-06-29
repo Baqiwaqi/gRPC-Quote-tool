@@ -29,6 +29,7 @@ type QuoteToolClient interface {
 	DeleteQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteDeleteResponse, error)
 	// v2
 	GetQuoteList(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (*QuoteService_QuotesListResponse, error)
+	StreamQuotes(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (QuoteTool_StreamQuotesClient, error)
 }
 
 type quoteToolClient struct {
@@ -84,6 +85,38 @@ func (c *quoteToolClient) GetQuoteList(ctx context.Context, in *QuoteService_NoP
 	return out, nil
 }
 
+func (c *quoteToolClient) StreamQuotes(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (QuoteTool_StreamQuotesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &QuoteTool_ServiceDesc.Streams[0], "/quoteTool.QuoteTool/StreamQuotes", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &quoteToolStreamQuotesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type QuoteTool_StreamQuotesClient interface {
+	Recv() (*QuoteService_Quote, error)
+	grpc.ClientStream
+}
+
+type quoteToolStreamQuotesClient struct {
+	grpc.ClientStream
+}
+
+func (x *quoteToolStreamQuotesClient) Recv() (*QuoteService_Quote, error) {
+	m := new(QuoteService_Quote)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // QuoteToolServer is the server API for QuoteTool service.
 // All implementations must embed UnimplementedQuoteToolServer
 // for forward compatibility
@@ -95,6 +128,7 @@ type QuoteToolServer interface {
 	DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error)
 	// v2
 	GetQuoteList(context.Context, *QuoteService_NoParams) (*QuoteService_QuotesListResponse, error)
+	StreamQuotes(*QuoteService_NoParams, QuoteTool_StreamQuotesServer) error
 	mustEmbedUnimplementedQuoteToolServer()
 }
 
@@ -116,6 +150,9 @@ func (UnimplementedQuoteToolServer) DeleteQuote(context.Context, *QuoteService_Q
 }
 func (UnimplementedQuoteToolServer) GetQuoteList(context.Context, *QuoteService_NoParams) (*QuoteService_QuotesListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetQuoteList not implemented")
+}
+func (UnimplementedQuoteToolServer) StreamQuotes(*QuoteService_NoParams, QuoteTool_StreamQuotesServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamQuotes not implemented")
 }
 func (UnimplementedQuoteToolServer) mustEmbedUnimplementedQuoteToolServer() {}
 
@@ -220,6 +257,27 @@ func _QuoteTool_GetQuoteList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _QuoteTool_StreamQuotes_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(QuoteService_NoParams)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(QuoteToolServer).StreamQuotes(m, &quoteToolStreamQuotesServer{stream})
+}
+
+type QuoteTool_StreamQuotesServer interface {
+	Send(*QuoteService_Quote) error
+	grpc.ServerStream
+}
+
+type quoteToolStreamQuotesServer struct {
+	grpc.ServerStream
+}
+
+func (x *quoteToolStreamQuotesServer) Send(m *QuoteService_Quote) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // QuoteTool_ServiceDesc is the grpc.ServiceDesc for QuoteTool service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -248,6 +306,12 @@ var QuoteTool_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _QuoteTool_GetQuoteList_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamQuotes",
+			Handler:       _QuoteTool_StreamQuotes_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "quote.proto",
 }

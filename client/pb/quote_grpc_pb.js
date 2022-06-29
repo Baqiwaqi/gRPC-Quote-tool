@@ -151,6 +151,17 @@ getQuoteList: {
     responseSerialize: serialize_quoteTool_QuoteService_QuotesListResponse,
     responseDeserialize: deserialize_quoteTool_QuoteService_QuotesListResponse,
   },
+  streamQuotes: {
+    path: '/quoteTool.QuoteTool/StreamQuotes',
+    requestStream: false,
+    responseStream: true,
+    requestType: quote_pb.QuoteService.NoParams,
+    responseType: quote_pb.QuoteService.Quote,
+    requestSerialize: serialize_quoteTool_QuoteService_NoParams,
+    requestDeserialize: deserialize_quoteTool_QuoteService_NoParams,
+    responseSerialize: serialize_quoteTool_QuoteService_Quote,
+    responseDeserialize: deserialize_quoteTool_QuoteService_Quote,
+  },
   // streamQuotes
 };
 
