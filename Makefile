@@ -7,5 +7,5 @@ generate:
 
 clean:
 	@echo "Cleaning up..."
-	rm client/pb/*
+	rm client/src/pb/*
 	rm server/pb/*
