@@ -8,12 +8,12 @@ plugins:
     out: ../server/pb
     opt: paths=source_relative
   - name: js
-    out: ../client/pb
+    out: ../client/src/pb
     opt: import_style=commonjs,binary
   - name: grpc
-    out: ../client/pb
+    out: ../client/src/pb
     opt: grpc_js
     path: grpc_tools_node_protoc_plugin
   - name: ts
-    out: ../client/pb
+    out: ../client/src/pb
     opt: grpc_js
