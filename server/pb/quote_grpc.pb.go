@@ -101,7 +101,7 @@ func (c *quoteToolClient) StreamQuotes(ctx context.Context, in *QuoteService_NoP
 }
 
 type QuoteTool_StreamQuotesClient interface {
-	Recv() (*QuoteService_QuoteResponse, error)
+	Recv() (*QuoteService_Quote, error)
 	grpc.ClientStream
 }
 
@@ -109,8 +109,8 @@ type quoteToolStreamQuotesClient struct {
 	grpc.ClientStream
 }
 
-func (x *quoteToolStreamQuotesClient) Recv() (*QuoteService_QuoteResponse, error) {
-	m := new(QuoteService_QuoteResponse)
+func (x *quoteToolStreamQuotesClient) Recv() (*QuoteService_Quote, error) {
+	m := new(QuoteService_Quote)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -266,7 +266,7 @@ func _QuoteTool_StreamQuotes_Handler(srv interface{}, stream grpc.ServerStream) 
 }
 
 type QuoteTool_StreamQuotesServer interface {
-	Send(*QuoteService_QuoteResponse) error
+	Send(*QuoteService_Quote) error
 	grpc.ServerStream
 }
 
@@ -274,7 +274,7 @@ type quoteToolStreamQuotesServer struct {
 	grpc.ServerStream
 }
 
-func (x *quoteToolStreamQuotesServer) Send(m *QuoteService_QuoteResponse) error {
+func (x *quoteToolStreamQuotesServer) Send(m *QuoteService_Quote) error {
 	return x.ServerStream.SendMsg(m)
 }
 

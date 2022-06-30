@@ -73,7 +73,8 @@ func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoPar
 func sendStream(doc *firestore.DocumentSnapshot, stream pb.QuoteTool_StreamQuotesServer) error {
 	var quote *pb.QuoteService_Quote
 	doc.DataTo(&quote)
-	if err := stream.Send(&pb.QuoteService_QuoteResponse{Quote: quote}); err != nil {
+
+	if err := stream.Send(quote); err != nil {
 		return err
 	}
 	return nil

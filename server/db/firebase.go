@@ -94,7 +94,9 @@ func GetQuoteListFromFirestore(c context.Context, s *firestore.Client) ([]*pb.Qu
 			return nil, err
 		}
 		var quote *pb.QuoteService_Quote
+
 		doc.DataTo(&quote)
+		quote.Id = doc.Ref.ID
 		quotes = append(quotes, quote)
 	}
 	return quotes, nil

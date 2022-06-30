@@ -12,7 +12,7 @@ service QuoteTool {
   rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
   rpc GetQuoteList(QuoteService.NoParams) returns (QuoteService.QuotesListResponse);
-  rpc StreamQuotes(QuoteService.NoParams) returns (stream QuoteService.QuoteResponse);
+  rpc StreamQuotes(QuoteService.NoParams) returns (stream QuoteService.Quote);
   // streamQuotes
 }
 
