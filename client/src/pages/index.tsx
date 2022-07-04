@@ -1,31 +1,17 @@
-import { SetStateAction, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QuoteService } from '../pb/quote_pb';
-import { QuoteToolClient } from '../pb/quote_grpc_web_pb';
+// import { QuoteToolClient } from '../pb/quote_grpc_web_pb';
 import JSONPretty from 'react-json-pretty';
-// import client from '../utils/grpc-client';
+import client from '../utils/grpcClient'
 
-var client = new QuoteToolClient('http://localhost:9090', null, null);
+
+// var client = new QuoteToolClient('http://localhost:9090', null, null);
 
 export default function Home() {
   const [quoteId, setQuoteId] = useState("");
   const [responseType, setResponseType] = useState("");
   const [quoteResponse, setQuoteResponse] = useState();
-
-
-  const startQuoteStream = () => {
-    const request = new QuoteService.NoParams();
-    var stream = client.streamQuotes(request);
-    stream.on("data", function(response: QuoteService.Quote) {
-      console.log(response.toObject());
-    });
-  }
-  
-  const stopQuoteStream = () => {
-    const request = new QuoteService.NoParams();
-    var stream = client.streamQuotes(request);
-    stream.cancel();
-  }
-
+  const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([]);
 
   const handleQuoteIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuoteId(event.target.value.trim());
@@ -37,93 +23,91 @@ export default function Home() {
     setQuoteResponse(undefined);
   }
 
-  const getQuote = async () => {
-    if (quoteId === "") {
-      setResponseType("error: no quoteId");
-      return;
-    }
-    const response = await fetch('api/get-quote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        quoteId: quoteId
-      })
+  const streamQuotesFromServer = () => {
+    console.log("called");
+    const request = new QuoteService.NoParams();
+    var stream = client.streamQuotes(request);
+    stream.on("data", function (response: QuoteService.Quote) {
+      setQuotes(quotes => [...quotes, response.toObject()]);
     });
-    const quote = await response.json();
-    setQuoteResponse(quote);
-    setResponseType("Get");
-    setQuoteId("");
+
+  }
+
+  useEffect(() => {
+    streamQuotesFromServer();
+    setQuotes([]);
+  }, []);
+
+
+  const getQuote = async () => {
+    const request = new QuoteService.QuoteRequest();
+    request.setId(quoteId)
+    client.getQuote(request, undefined, (err: Error | null, response: any) => {
+      if (err) {
+        // setQuoteResponse(err.message)
+        console.log(err.message);
+        setResponseType(err.message)
+        setQuoteResponse(undefined)
+        return;
+      }
+      setResponseType("GetQuoteResponse");
+      setQuoteResponse(response.toObject());
+    });
   }
 
   const createQuote = async () => {
-    const response = await fetch('api/create-quote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        quoteId: quoteId,
-        customer: "John Doe",
-        customerRef: "12345",
-      })
+    const request = new QuoteService.Quote;
+    client.createQuote(request, undefined, (err: Error | null, response: any) => {
+      if (err) {
+        console.log(err.message);
+        setResponseType(err.message)
+        setQuoteResponse(undefined)
+        return;
+      }
+      setResponseType("Quote succesfully created")
+      setQuoteResponse(response.toObject())
     });
-    const result = await response.json();
-    setResponseType("Create");
-    setQuoteResponse(result);
-    setQuoteId("");
   }
 
   const updateQuote = async () => {
-    if (quoteId === "") {
-      setResponseType("error: no quoteId");
-      return;
-    }
-    const response = await fetch('api/update-quote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: quoteId,
-        customer: "John Doe update lol",
-        customerRef: "12345",
-      })
+    const request = new QuoteService.Quote;
+    request.setId(quoteId);
+    client.updateQuote(request, undefined, (err: Error | null, response: any) => {
+      if (err) {
+        console.log(err.message);
+        setResponseType(err.message)
+        setQuoteResponse(undefined)
+        return;
+      }
+      setResponseType("Quote succesfully updated")
+      setQuoteResponse(response.toObject())
     });
-    const result = await response.json();
-    setResponseType("Update");
-    setQuoteResponse(result);
-    setQuoteId("");
   }
 
   const deleteQuote = async () => {
-    if (quoteId === "") {
-      setResponseType("error: no quoteId");
-      setQuoteResponse(undefined);
-      return;
-    }
-
-    const response = await fetch('api/delete-quote', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        quoteId: quoteId
-      })
+    const request = new QuoteService.QuoteRequest().setId(quoteId);
+    client.deleteQuote(request, undefined, (err: any, response: any) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      setResponseType("Delete");
+      setQuoteResponse(response.toObject());
     });
-    const result = await response.json();
-    setResponseType("Delete");
-    setQuoteResponse(result);
-    setQuoteId("");
   }
 
   const listAllQuotes = async () => {
-    const response = await fetch('api/list-all-quotes')
-    const result = await response.json()
-    setResponseType("List all")
-    setQuoteResponse(result)
+    const request = new QuoteService.NoParams()
+    client.getQuoteList(request, undefined, (err: Error | null, response: any) => {
+      if (err) {
+        console.log(err.message);
+        setResponseType(err.message)
+        setQuoteResponse(undefined)
+        return;
+      }
+      setResponseType("ListAllQuotes");
+      setQuoteResponse(response.toObject());
+    });
   }
 
 
@@ -170,16 +154,7 @@ export default function Home() {
             >
               List all
             </button>
-            <button className="bg-blue-500 active:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={startQuoteStream}
-            >
-              Start stream
-            </button>
-            <button className="bg-blue-500 active:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={stopQuoteStream}
-            >
-              Cancel Stream
-            </button>
+
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2 p-6  h-4/5">
@@ -187,8 +162,16 @@ export default function Home() {
           {responseType && <h5 className='font-bold'>{responseType}</h5>}
           <JSONPretty className='overflow-y-auto' id="pretty" data={quoteResponse} />
         </div>
-        <div className="flex flex-col items-center space-y-2 p-6  h-4/5">
-          <h1 className="text-4xl font-bold">Stream</h1>
+        <div className=" flex flex-col items-start space-y-2 p-6  h-4/5">
+          <h1 className="text-4xl align-middle font-bold">Stream</h1>
+          {quotes && quotes.map((quote, index) => {
+            return (
+              <div key={index} className="items-st">
+                <h5 className='font-bold'>{quote.id}</h5>
+                <p className="">Customer: {quote.customer}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>
