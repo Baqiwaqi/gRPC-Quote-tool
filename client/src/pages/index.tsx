@@ -1,12 +1,31 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { QuoteService } from '../pb/quote_pb';
+import { QuoteToolClient } from '../pb/quote_grpc_web_pb';
 import JSONPretty from 'react-json-pretty';
+// import client from '../utils/grpc-client';
 
+var client = new QuoteToolClient('http://localhost:9090', null, null);
 
 export default function Home() {
   const [quoteId, setQuoteId] = useState("");
   const [responseType, setResponseType] = useState("");
   const [quoteResponse, setQuoteResponse] = useState();
+
+
+  const startQuoteStream = () => {
+    const request = new QuoteService.NoParams();
+    var stream = client.streamQuotes(request);
+    stream.on("data", function(response: QuoteService.Quote) {
+      console.log(response.toObject());
+    });
+  }
+  
+  const stopQuoteStream = () => {
+    const request = new QuoteService.NoParams();
+    var stream = client.streamQuotes(request);
+    stream.cancel();
+  }
+
 
   const handleQuoteIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuoteId(event.target.value.trim());
@@ -107,14 +126,11 @@ export default function Home() {
     setQuoteResponse(result)
   }
 
-  const startQuoteStream = async () => {
-    await fetch('api/stream-quotes')
-  }
 
   return (
     <div className="h-screen w-screen flex flex-col">
       <div className="flex flex-row justify-center items-center h-screen w-screen space-x-2 ">
-        <div className="flex flex-col  items-center space-y-2 p-6 h-4/5">
+        <div className="flex flex-col items-center space-y-2 p-6 h-4/5">
           <h1 className="text-4xl font-bold">Actions</h1>
           <div className="flex flex-col space-y-2 p-6 w-96">
             <label className="text-blue-100font-bold " >Quote ID</label>
@@ -159,6 +175,11 @@ export default function Home() {
             >
               Start stream
             </button>
+            <button className="bg-blue-500 active:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={stopQuoteStream}
+            >
+              Cancel Stream
+            </button>
           </div>
         </div>
         <div className="flex flex-col items-center space-y-2 p-6  h-4/5">
@@ -166,7 +187,7 @@ export default function Home() {
           {responseType && <h5 className='font-bold'>{responseType}</h5>}
           <JSONPretty className='overflow-y-auto' id="pretty" data={quoteResponse} />
         </div>
-        <div className="flex flex-col border border-color-blue items-center space-y-2 p-6 w-96 h-3/5">
+        <div className="flex flex-col items-center space-y-2 p-6  h-4/5">
           <h1 className="text-4xl font-bold">Stream</h1>
         </div>
       </div>

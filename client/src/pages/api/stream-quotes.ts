@@ -7,9 +7,16 @@ import client from '../../utils/grpc-client';
 export default function StreamQuotes(req: NextApiRequest, res: NextApiResponse) {
   const request = new QuoteService.NoParams
 
-  var stream = client.streamQuotes(request)  as grpcWeb.ClientReadableStream<QuoteService.Quote>;
+  var stream = client.streamQuotes(request);
 
   stream.on('data', (response: QuoteService.Quote) => {
-   console.log(response);
+   console.log(response.toObject());
+   res.status(200).json(response.toObject());
   });
+
+  stream.on('end', () => {
+    console.log('end');
+    stream.cancel();
+  });
+  
 }

@@ -6,3 +6,8 @@ export default new QuoteToolClient(
   'localhost:50051',
   grpc.credentials.createInsecure()
 );
+
+const client = new QuoteToolClient(
+  'localhost:50051',
+  grpc.credentials.createInsecure()
+);
