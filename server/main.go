@@ -9,6 +9,10 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/bawiwaqi/quote-service/db"
 	pb "github.com/bawiwaqi/quote-service/pb"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
+	"go.uber.org/zap"
+	"golang.org/x/net/netutil"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -21,6 +25,7 @@ const (
 type QuoteServer struct {
 	pb.UnimplementedQuoteToolServer
 	client *firestore.Client
+	logger *zap.Logger
 }
 
 // var with errorss
@@ -29,11 +34,11 @@ var (
 	ErrGettingQuote  = status.Error(codes.Internal, "Error getting quote")
 )
 
-func unaryInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-	start := time.Now()
-	resp, err := handler(ctx, req)
-	log.Printf("intercepted %v in %v", info.FullMethod, time.Since(start))
-	return resp, err
+func (s *QuoteServer) ServerUnaryInterceptor() grpc.ServerOption {
+	return grpc.UnaryInterceptor(
+		grpc_middleware.ChainUnaryServer(
+			grpc_zap.UnaryServerInterceptor(s.logger),
+		))
 }
 
 func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteResponse, error) {
@@ -76,6 +81,33 @@ func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoPar
 	return &pb.QuoteService_QuotesListResponse{Quotes: quotes}, nil
 }
 
+func (s *QuoteServer) initialize() error {
+	if err := s.initializeZapper(); err != nil {
+		return err
+	}
+	if err := s.initializeFirebaseClient(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *QuoteServer) initializeFirebaseClient() error {
+	client, err := db.NewFirebaseClient()
+	if err != nil {
+		return err
+	}
+	s.client = client
+	return nil
+}
+
+func (s *QuoteServer) initializeZapper() (err error) {
+	s.logger, err = zap.NewProduction()
+	if err != nil {
+		return
+	}
+	return
+}
+
 // for document streaming
 func sendStream(doc *firestore.DocumentSnapshot, changeType pb.QuoteService_QuoteStreamResponse_ChangeType, stream pb.QuoteTool_StreamQuotesServer) error {
 	var response *pb.QuoteService_QuoteStreamResponse
@@ -87,7 +119,6 @@ func sendStream(doc *firestore.DocumentSnapshot, changeType pb.QuoteService_Quot
 		Quote:      quote,
 	}
 
-	// response.ChangeType = changeType
 	if err := stream.Send(response); err != nil {
 		return err
 	}
@@ -135,12 +166,22 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
+	lis = netutil.LimitListener(lis, 10)
+
 	var quoteServer = &QuoteServer{}
-	quoteServer.client = db.NewFirebaseClient()
+	// quoteServer.client = db.NewFirebaseClient()
+	if err := quoteServer.initialize(); err != nil {
+		log.Fatalf("failed to initialize: %v", err)
+	}
+	defer quoteServer.logger.Sync()
+	defer quoteServer.client.Close()
 
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(unaryInterceptor),
+		quoteServer.ServerUnaryInterceptor(),
+		grpc.MaxConcurrentStreams(164),
+		// grpc.InTapHandle(),
 	)
+
 	pb.RegisterQuoteToolServer(s, quoteServer)
 	log.Printf("Quote server listening on port %s", port)
 	s.Serve(lis)

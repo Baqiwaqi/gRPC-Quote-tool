@@ -21,7 +21,7 @@ func GetQuoteFromFirestore(s *firestore.Client, documentId string) (*pb.QuoteSer
 	ctx := context.Background()
 	docSnap, err := s.Collection("quotes").Doc(documentId).Get(ctx)
 	if err != nil {
-		log.Printf("Error getting document: %v", err)
+		// log.Printf("Error getting document: %v", err)
 		return nil, ErrFirebase
 	}
 	if !docSnap.Exists() {
@@ -36,7 +36,7 @@ func CreateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	ctx := context.Background()
 	_, _, err := s.Collection("quotes").Add(ctx, quote)
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
 		return ErrFirebase
 	}
 	return nil
@@ -46,7 +46,7 @@ func checkifQuoteExists(s *firestore.Client, documentId string) error {
 	ctx := context.Background()
 	_, err := s.Collection("quotes").Doc(documentId).Get(ctx)
 	if err != nil {
-		log.Printf("Error getting document: %v", err)
+		// log.Printf("Error getting document: %v", err)
 		return ErrQuoteNotFound
 	}
 	return nil
@@ -62,7 +62,7 @@ func UpdateQuoteInFirestore(s *firestore.Client, quote *pb.QuoteService_Quote) e
 	// update quote with set
 	_, updateError := s.Collection("quotes").Doc(quote.Id).Set(ctx, quote)
 	if updateError != nil {
-		log.Printf("Error getting document: %v", err)
+		// log.Printf("Error getting document: %v", err)
 		return ErrFirebase
 	}
 	return nil
@@ -94,7 +94,6 @@ func GetQuoteListFromFirestore(c context.Context, s *firestore.Client) ([]*pb.Qu
 			return nil, err
 		}
 		var quote *pb.QuoteService_Quote
-
 		doc.DataTo(&quote)
 		quote.Id = doc.Ref.ID
 		quotes = append(quotes, quote)
