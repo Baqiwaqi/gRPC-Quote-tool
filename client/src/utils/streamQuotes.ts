@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import client from "./grpcClient"
 import { QuoteService } from "../pb/quote_pb"
-import { flushSync } from "react-dom"
+import client from "./grpcClient"
+
 
 export const useStreamQuotes = () => {
   const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([])
@@ -19,7 +19,7 @@ export const useStreamQuotes = () => {
         setQuotes((q) => [...q, response.quote as QuoteService.Quote.AsObject])
         break;
       case 1:
-        console.log("UPDATED", response.quote?.id);
+        console.log("UPDATED");
         setQuotes((q) => {
           const newQuotes = [...q]
           const index = newQuotes.findIndex((q) => q.id === response.quote?.id)
@@ -28,7 +28,7 @@ export const useStreamQuotes = () => {
         });
         break;
       case 2:
-        console.log("DELETED", response.quote?.id);
+        console.log("DELETED");
         setQuotes((q) => q.filter(quote => quote.id !== response.quote?.id))
         break;
       default:
@@ -47,15 +47,16 @@ export const useStreamQuotes = () => {
     }
     ).on("end", () => {
       console.log("Stream ended")
+      setQuotes([])
     }).on("status", (status) => {
       console.log(status)
     });
+    
     return () => {
+      setQuotes([])
       stream.cancel()
     }
   }, [])
 
   return quotes
 }
-
-// create a function for a witch statement to handle the response type
