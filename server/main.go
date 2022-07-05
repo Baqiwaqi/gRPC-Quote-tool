@@ -30,42 +30,52 @@ var (
 )
 
 func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteResponse, error) {
+	start := time.Now()
 	quote, err := db.GetQuoteFromFirestore(s.client, req.Id)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("GetQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteResponse{Quote: quote}, nil
 }
 
 func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteCreateResponse, error) {
+	start := time.Now()
 	err := db.CreateQuoteInFirestore(s.client, req)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("CreateQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteCreateResponse{Response: "Quote succesfully created"}, nil
 }
 
 func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteUpdateResponse, error) {
+	start := time.Now()
 	err := db.UpdateQuoteInFirestore(s.client, req)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("UpdateQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteUpdateResponse{Response: "Quote succefully updated"}, nil
 }
 
 func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {
+	start := time.Now()
 	err := db.DeleteQuoteInFirestore(s.client, req.Id)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("DeleteQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote succefully deleted"}, nil
 }
 
 func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoParams) (*pb.QuoteService_QuotesListResponse, error) {
+	start := time.Now()
 	quotes, err := db.GetQuoteListFromFirestore(c, s.client)
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("GetQuoteList duration: %s", time.Since(start))
 	return &pb.QuoteService_QuotesListResponse{Quotes: quotes}, nil
 }
 
