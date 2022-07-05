@@ -46,7 +46,7 @@ export class QuoteToolClient {
   streamQuotes(
     request: quote_pb.QuoteService.NoParams,
     metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.Quote>;
+  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
 
 }
 
@@ -83,7 +83,7 @@ export class QuoteToolPromiseClient {
   streamQuotes(
     request: quote_pb.QuoteService.NoParams,
     metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.Quote>;
+  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
 
 }
 

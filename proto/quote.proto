@@ -12,8 +12,7 @@ service QuoteTool {
   rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
   rpc GetQuoteList(QuoteService.NoParams) returns (QuoteService.QuotesListResponse);
-  rpc StreamQuotes(QuoteService.NoParams) returns (stream QuoteService.Quote);
-  // streamQuotes
+  rpc StreamQuotes(QuoteService.NoParams) returns (stream QuoteService.QuoteStreamResponse);
 }
 
 message QuoteService {
@@ -72,6 +71,13 @@ message QuoteService {
 
   // v2
   message QuotesListResponse { repeated Quote quotes = 1; }
-  // message QuoteListResponse { repeated Quote quotes = 1; }
-  // streamQuotes
+  message QuoteStreamResponse {
+    Quote quote = 1;
+    enum ChangeType {
+      ADDED = 0;
+      UPDATED = 1;
+      DELETED = 2;
+    }
+    ChangeType changeType = 2;
+  }
 }

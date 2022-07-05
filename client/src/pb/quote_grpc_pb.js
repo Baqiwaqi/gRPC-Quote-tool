@@ -70,6 +70,17 @@ function deserialize_quoteTool_QuoteService_QuoteResponse(buffer_arg) {
   return quote_pb.QuoteService.QuoteResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_quoteTool_QuoteService_QuoteStreamResponse(arg) {
+  if (!(arg instanceof quote_pb.QuoteService.QuoteStreamResponse)) {
+    throw new Error('Expected argument of type quoteTool.QuoteService.QuoteStreamResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_quoteTool_QuoteService_QuoteStreamResponse(buffer_arg) {
+  return quote_pb.QuoteService.QuoteStreamResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_quoteTool_QuoteService_QuoteUpdateResponse(arg) {
   if (!(arg instanceof quote_pb.QuoteService.QuoteUpdateResponse)) {
     throw new Error('Expected argument of type quoteTool.QuoteService.QuoteUpdateResponse');
@@ -156,13 +167,12 @@ getQuoteList: {
     requestStream: false,
     responseStream: true,
     requestType: quote_pb.QuoteService.NoParams,
-    responseType: quote_pb.QuoteService.Quote,
+    responseType: quote_pb.QuoteService.QuoteStreamResponse,
     requestSerialize: serialize_quoteTool_QuoteService_NoParams,
     requestDeserialize: deserialize_quoteTool_QuoteService_NoParams,
-    responseSerialize: serialize_quoteTool_QuoteService_Quote,
-    responseDeserialize: deserialize_quoteTool_QuoteService_Quote,
+    responseSerialize: serialize_quoteTool_QuoteService_QuoteStreamResponse,
+    responseDeserialize: deserialize_quoteTool_QuoteService_QuoteStreamResponse,
   },
-  // streamQuotes
 };
 
 exports.QuoteToolClient = grpc.makeGenericClientConstructor(QuoteToolService);

@@ -349,5 +349,36 @@ export namespace QuoteService {
     }
   }
 
+
+  export class QuoteStreamResponse extends jspb.Message {
+    getQuote(): QuoteService.Quote | undefined;
+    setQuote(value?: QuoteService.Quote): QuoteStreamResponse;
+    hasQuote(): boolean;
+    clearQuote(): QuoteStreamResponse;
+
+    getChangetype(): QuoteService.QuoteStreamResponse.ChangeType;
+    setChangetype(value: QuoteService.QuoteStreamResponse.ChangeType): QuoteStreamResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): QuoteStreamResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: QuoteStreamResponse): QuoteStreamResponse.AsObject;
+    static serializeBinaryToWriter(message: QuoteStreamResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): QuoteStreamResponse;
+    static deserializeBinaryFromReader(message: QuoteStreamResponse, reader: jspb.BinaryReader): QuoteStreamResponse;
+  }
+
+  export namespace QuoteStreamResponse {
+    export type AsObject = {
+      quote?: QuoteService.Quote.AsObject,
+      changetype: QuoteService.QuoteStreamResponse.ChangeType,
+    }
+
+    export enum ChangeType { 
+      ADDED = 0,
+      UPDATED = 1,
+      DELETED = 2,
+    }
+  }
+
 }
 

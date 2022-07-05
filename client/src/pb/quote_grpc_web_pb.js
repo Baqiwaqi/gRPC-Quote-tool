@@ -379,13 +379,13 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.getQuoteList =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.quoteTool.QuoteService.NoParams,
- *   !proto.quoteTool.QuoteService.Quote>}
+ *   !proto.quoteTool.QuoteService.QuoteStreamResponse>}
  */
 const methodDescriptor_QuoteTool_StreamQuotes = new grpc.web.MethodDescriptor(
   '/quoteTool.QuoteTool/StreamQuotes',
   grpc.web.MethodType.SERVER_STREAMING,
   proto.quoteTool.QuoteService.NoParams,
-  proto.quoteTool.QuoteService.Quote,
+  proto.quoteTool.QuoteService.QuoteStreamResponse,
   /**
    * @param {!proto.quoteTool.QuoteService.NoParams} request
    * @return {!Uint8Array}
@@ -393,7 +393,7 @@ const methodDescriptor_QuoteTool_StreamQuotes = new grpc.web.MethodDescriptor(
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.Quote.deserializeBinary
+  proto.quoteTool.QuoteService.QuoteStreamResponse.deserializeBinary
 );
 
 
@@ -401,7 +401,7 @@ const methodDescriptor_QuoteTool_StreamQuotes = new grpc.web.MethodDescriptor(
  * @param {!proto.quoteTool.QuoteService.NoParams} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.Quote>}
+ * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteStreamResponse>}
  *     The XHR Node Readable Stream
  */
 proto.quoteTool.QuoteToolClient.prototype.streamQuotes =
@@ -418,7 +418,7 @@ proto.quoteTool.QuoteToolClient.prototype.streamQuotes =
  * @param {!proto.quoteTool.QuoteService.NoParams} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.Quote>}
+ * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteStreamResponse>}
  *     The XHR Node Readable Stream
  */
 proto.quoteTool.QuoteToolPromiseClient.prototype.streamQuotes =

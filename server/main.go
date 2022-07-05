@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	port = ":50051"
+	port = ":50052"
 )
 
 type QuoteServer struct {
@@ -70,11 +70,18 @@ func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoPar
 }
 
 // for document streaming
-func sendStream(doc *firestore.DocumentSnapshot, stream pb.QuoteTool_StreamQuotesServer) error {
+func sendStream(doc *firestore.DocumentSnapshot, changeType pb.QuoteService_QuoteStreamResponse_ChangeType, stream pb.QuoteTool_StreamQuotesServer) error {
+	var response *pb.QuoteService_QuoteStreamResponse
 	var quote *pb.QuoteService_Quote
 	doc.DataTo(&quote)
 	quote.Id = doc.Ref.ID
-	if err := stream.Send(quote); err != nil {
+	response = &pb.QuoteService_QuoteStreamResponse{
+		ChangeType: changeType,
+		Quote:      quote,
+	}
+
+	// response.ChangeType = changeType
+	if err := stream.Send(response); err != nil {
 		return err
 	}
 	return nil
@@ -96,18 +103,29 @@ func (s *QuoteServer) StreamQuotes(req *pb.QuoteService_NoParams, stream pb.Quot
 			log.Printf("Snapsshots.Next: %v", err)
 			return err
 		}
+
 		if snap != nil {
 			// return quote that is added, modified or removed
+			// for {
+			// 	doc, err := snap.Documents.Next()
+			// 	if err == iterator.Done {
+			// 		break
+			// 	}
+			// 	if err != nil {
+			// 		return err
+			// 	}
+			// 	sendStream(doc, stream)
+			// }
 			for _, change := range snap.Changes {
 				switch change.Kind {
 				case firestore.DocumentAdded:
-					sendStream(change.Doc, stream)
+					sendStream(change.Doc, pb.QuoteService_QuoteStreamResponse_ADDED, stream)
 					log.Printf("New Quote")
 				case firestore.DocumentModified:
-					sendStream(change.Doc, stream)
+					sendStream(change.Doc, pb.QuoteService_QuoteStreamResponse_UPDATED, stream)
 					log.Printf("Modified Quote")
 				case firestore.DocumentRemoved:
-					sendStream(change.Doc, stream)
+					sendStream(change.Doc, pb.QuoteService_QuoteStreamResponse_DELETED, stream)
 					log.Printf("Removed Quote")
 				}
 			}

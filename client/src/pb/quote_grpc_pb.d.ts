@@ -62,14 +62,14 @@ interface IQuoteToolService_IGetQuoteList extends grpc.MethodDefinition<quote_pb
     responseSerialize: grpc.serialize<quote_pb.QuoteService.QuotesListResponse>;
     responseDeserialize: grpc.deserialize<quote_pb.QuoteService.QuotesListResponse>;
 }
-interface IQuoteToolService_IStreamQuotes extends grpc.MethodDefinition<quote_pb.QuoteService.NoParams, quote_pb.QuoteService.Quote> {
+interface IQuoteToolService_IStreamQuotes extends grpc.MethodDefinition<quote_pb.QuoteService.NoParams, quote_pb.QuoteService.QuoteStreamResponse> {
     path: "/quoteTool.QuoteTool/StreamQuotes";
     requestStream: false;
     responseStream: true;
     requestSerialize: grpc.serialize<quote_pb.QuoteService.NoParams>;
     requestDeserialize: grpc.deserialize<quote_pb.QuoteService.NoParams>;
-    responseSerialize: grpc.serialize<quote_pb.QuoteService.Quote>;
-    responseDeserialize: grpc.deserialize<quote_pb.QuoteService.Quote>;
+    responseSerialize: grpc.serialize<quote_pb.QuoteService.QuoteStreamResponse>;
+    responseDeserialize: grpc.deserialize<quote_pb.QuoteService.QuoteStreamResponse>;
 }
 
 export const QuoteToolService: IQuoteToolService;
@@ -80,7 +80,7 @@ export interface IQuoteToolServer {
     updateQuote: grpc.handleUnaryCall<quote_pb.QuoteService.Quote, quote_pb.QuoteService.QuoteUpdateResponse>;
     deleteQuote: grpc.handleUnaryCall<quote_pb.QuoteService.QuoteRequest, quote_pb.QuoteService.QuoteDeleteResponse>;
     getQuoteList: grpc.handleUnaryCall<quote_pb.QuoteService.NoParams, quote_pb.QuoteService.QuotesListResponse>;
-    streamQuotes: grpc.handleServerStreamingCall<quote_pb.QuoteService.NoParams, quote_pb.QuoteService.Quote>;
+    streamQuotes: grpc.handleServerStreamingCall<quote_pb.QuoteService.NoParams, quote_pb.QuoteService.QuoteStreamResponse>;
 }
 
 export interface IQuoteToolClient {
@@ -99,8 +99,8 @@ export interface IQuoteToolClient {
     getQuoteList(request: quote_pb.QuoteService.NoParams, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
     getQuoteList(request: quote_pb.QuoteService.NoParams, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
     getQuoteList(request: quote_pb.QuoteService.NoParams, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
-    streamQuotes(request: quote_pb.QuoteService.NoParams, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.Quote>;
-    streamQuotes(request: quote_pb.QuoteService.NoParams, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.Quote>;
+    streamQuotes(request: quote_pb.QuoteService.NoParams, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
+    streamQuotes(request: quote_pb.QuoteService.NoParams, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
 }
 
 export class QuoteToolClient extends grpc.Client implements IQuoteToolClient {
@@ -120,6 +120,6 @@ export class QuoteToolClient extends grpc.Client implements IQuoteToolClient {
     public getQuoteList(request: quote_pb.QuoteService.NoParams, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
     public getQuoteList(request: quote_pb.QuoteService.NoParams, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
     public getQuoteList(request: quote_pb.QuoteService.NoParams, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: quote_pb.QuoteService.QuotesListResponse) => void): grpc.ClientUnaryCall;
-    public streamQuotes(request: quote_pb.QuoteService.NoParams, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.Quote>;
-    public streamQuotes(request: quote_pb.QuoteService.NoParams, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.Quote>;
+    public streamQuotes(request: quote_pb.QuoteService.NoParams, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
+    public streamQuotes(request: quote_pb.QuoteService.NoParams, metadata?: grpc.Metadata, options?: Partial<grpc.CallOptions>): grpc.ClientReadableStream<quote_pb.QuoteService.QuoteStreamResponse>;
 }

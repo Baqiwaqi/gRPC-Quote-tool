@@ -1,9 +1,9 @@
+import { flushSync } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { QuoteService } from '../pb/quote_pb';
-// import { QuoteToolClient } from '../pb/quote_grpc_web_pb';
 import JSONPretty from 'react-json-pretty';
 import client from '../utils/grpcClient'
-
+import { useStreamQuotes } from '../utils/streamQuotes';
 
 // var client = new QuoteToolClient('http://localhost:9090', null, null);
 
@@ -11,8 +11,7 @@ export default function Home() {
   const [quoteId, setQuoteId] = useState("");
   const [responseType, setResponseType] = useState("");
   const [quoteResponse, setQuoteResponse] = useState();
-  const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([]);
-
+  const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([])
   const handleQuoteIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuoteId(event.target.value.trim());
   }
@@ -21,23 +20,9 @@ export default function Home() {
     setQuoteId("");
     setResponseType("");
     setQuoteResponse(undefined);
-  }
-
-  const streamQuotesFromServer = () => {
-    console.log("called");
-    const request = new QuoteService.NoParams();
-    var stream = client.streamQuotes(request);
-    stream.on("data", function (response: QuoteService.Quote) {
-      setQuotes(quotes => [...quotes, response.toObject()]);
-    });
 
   }
-
-  useEffect(() => {
-    streamQuotesFromServer();
-    setQuotes([]);
-  }, []);
-
+  const stream = useStreamQuotes();
 
   const getQuote = async () => {
     const request = new QuoteService.QuoteRequest();
@@ -72,6 +57,7 @@ export default function Home() {
   const updateQuote = async () => {
     const request = new QuoteService.Quote;
     request.setId(quoteId);
+    request.setCustomer("John Doe");
     client.updateQuote(request, undefined, (err: Error | null, response: any) => {
       if (err) {
         console.log(err.message);
@@ -91,6 +77,8 @@ export default function Home() {
         console.error(err);
         return;
       }
+      // remove deleted quote from list
+      // setQuotes(quotes.filter(quote => quote.id != quoteId))
       setResponseType("Delete");
       setQuoteResponse(response.toObject());
     });
@@ -154,17 +142,24 @@ export default function Home() {
             >
               List all
             </button>
+            {/* <button className="bg-blue-500 active:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={useClosestreamQuotes}
+            >
+              closestream
+            </button> */}
 
           </div>
         </div>
+
         <div className="flex flex-col items-center space-y-2 p-6  h-4/5">
           <h1 className="text-4xl font-bold">Quote response</h1>
           {responseType && <h5 className='font-bold'>{responseType}</h5>}
           <JSONPretty className='overflow-y-auto' id="pretty" data={quoteResponse} />
         </div>
+
         <div className=" flex flex-col items-start space-y-2 p-6  h-4/5">
           <h1 className="text-4xl align-middle font-bold">Stream</h1>
-          {quotes && quotes.map((quote, index) => {
+          {stream && stream.map((quote, index) => {
             return (
               <div key={index} className="items-st">
                 <h5 className='font-bold'>{quote.id}</h5>
@@ -173,6 +168,7 @@ export default function Home() {
             )
           })}
         </div>
+
       </div>
     </div>
   )
