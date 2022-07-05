@@ -10,21 +10,25 @@ import { useStreamQuotes } from '../utils/streamQuotes';
 export default function Home() {
   const [quoteId, setQuoteId] = useState("");
   const [responseType, setResponseType] = useState("");
-  const [quoteResponse, setQuoteResponse] = useState();
-  const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([])
+  const [quoteResponse, setQuoteResponse] = useState<any>();
   const handleQuoteIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuoteId(event.target.value.trim());
   }
 
+  // time in hours: minutes : seconds
+  var time = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getMilliseconds();
+
+  
   const clearAll = () => {
     setQuoteId("");
     setResponseType("");
     setQuoteResponse(undefined);
-
   }
-  const stream = useStreamQuotes();
+
+  const streamOfQuotes = useStreamQuotes();
 
   const getQuote = async () => {
+    console.log("getQuote start:", time);
     const request = new QuoteService.QuoteRequest();
     request.setId(quoteId)
     client.getQuote(request, undefined, (err: Error | null, response: any) => {
@@ -33,24 +37,29 @@ export default function Home() {
         console.log(err.message);
         setResponseType(err.message)
         setQuoteResponse(undefined)
+        console.log("getQuote error:", time);
         return;
       }
       setResponseType("GetQuoteResponse");
       setQuoteResponse(response.toObject());
+      console.log("getQuote succes: ", time);
     });
   }
 
   const createQuote = async () => {
+    console.log("createQuote start:", time);
     const request = new QuoteService.Quote;
     client.createQuote(request, undefined, (err: Error | null, response: any) => {
       if (err) {
         console.log(err.message);
         setResponseType(err.message)
         setQuoteResponse(undefined)
+        console.log("createQuote error:", time);
         return;
       }
       setResponseType("Quote succesfully created")
       setQuoteResponse(response.toObject())
+      console.log("createQuote succes: ", time);
     });
   }
 
@@ -62,7 +71,11 @@ export default function Home() {
       if (err) {
         console.log(err.message);
         setResponseType(err.message)
-        setQuoteResponse(undefined)
+
+        setQuoteResponse({
+          "id": quoteId,
+          "error": err.message,
+        })
         return;
       }
       setResponseType("Quote succesfully updated")
@@ -74,7 +87,11 @@ export default function Home() {
     const request = new QuoteService.QuoteRequest().setId(quoteId);
     client.deleteQuote(request, undefined, (err: any, response: any) => {
       if (err) {
-        console.error(err);
+        setResponseType(err.message)
+        setQuoteResponse({
+          "id": quoteId,
+          "error": err.message,
+        })
         return;
       }
       // remove deleted quote from list
@@ -159,7 +176,7 @@ export default function Home() {
 
         <div className=" flex flex-col items-start space-y-2 p-6  h-4/5">
           <h1 className="text-4xl align-middle font-bold">Stream</h1>
-          {stream && stream.map((quote, index) => {
+          {streamOfQuotes && streamOfQuotes.map((quote, index) => {
             return (
               <div key={index} className="items-st">
                 <h5 className='font-bold'>{quote.id}</h5>
@@ -167,6 +184,7 @@ export default function Home() {
               </div>
             )
           })}
+          
         </div>
 
       </div>
