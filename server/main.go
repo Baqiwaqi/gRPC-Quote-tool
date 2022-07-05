@@ -29,53 +29,50 @@ var (
 	ErrGettingQuote  = status.Error(codes.Internal, "Error getting quote")
 )
 
-func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteResponse, error) {
+func unaryInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	start := time.Now()
+	resp, err := handler(ctx, req)
+	log.Printf("intercepted %v in %v", info.FullMethod, time.Since(start))
+	return resp, err
+}
+
+func (s *QuoteServer) GetQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteResponse, error) {
 	quote, err := db.GetQuoteFromFirestore(s.client, req.Id)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("GetQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteResponse{Quote: quote}, nil
 }
 
 func (s *QuoteServer) CreateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteCreateResponse, error) {
-	start := time.Now()
 	err := db.CreateQuoteInFirestore(s.client, req)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("CreateQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteCreateResponse{Response: "Quote succesfully created"}, nil
 }
 
 func (s *QuoteServer) UpdateQuote(c context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteUpdateResponse, error) {
-	start := time.Now()
 	err := db.UpdateQuoteInFirestore(s.client, req)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("UpdateQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteUpdateResponse{Response: "Quote succefully updated"}, nil
 }
 
 func (s *QuoteServer) DeleteQuote(c context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {
-	start := time.Now()
 	err := db.DeleteQuoteInFirestore(s.client, req.Id)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("DeleteQuote duration: %s", time.Since(start))
 	return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote succefully deleted"}, nil
 }
 
 func (s *QuoteServer) GetQuoteList(c context.Context, req *pb.QuoteService_NoParams) (*pb.QuoteService_QuotesListResponse, error) {
-	start := time.Now()
 	quotes, err := db.GetQuoteListFromFirestore(c, s.client)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("GetQuoteList duration: %s", time.Since(start))
 	return &pb.QuoteService_QuotesListResponse{Quotes: quotes}, nil
 }
 
@@ -115,17 +112,6 @@ func (s *QuoteServer) StreamQuotes(req *pb.QuoteService_NoParams, stream pb.Quot
 		}
 
 		if snap != nil {
-			// return quote that is added, modified or removed
-			// for {
-			// 	doc, err := snap.Documents.Next()
-			// 	if err == iterator.Done {
-			// 		break
-			// 	}
-			// 	if err != nil {
-			// 		return err
-			// 	}
-			// 	sendStream(doc, stream)
-			// }
 			for _, change := range snap.Changes {
 				switch change.Kind {
 				case firestore.DocumentAdded:
@@ -152,7 +138,9 @@ func main() {
 	var quoteServer = &QuoteServer{}
 	quoteServer.client = db.NewFirebaseClient()
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(unaryInterceptor),
+	)
 	pb.RegisterQuoteToolServer(s, quoteServer)
 	log.Printf("Quote server listening on port %s", port)
 	s.Serve(lis)
