@@ -69,6 +69,15 @@ func (s *Server) initializeService() error {
 	return nil
 }
 
+func (s *Server) newGrpcServer() *grpc.Server {
+	server := grpc.NewServer(
+		s.ServerStreamInterceptor(),
+		s.ServerUnaryInterceptor(),
+		grpc.MaxConcurrentStreams(164),
+	)
+	return server
+}
+
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -78,18 +87,14 @@ func main() {
 	lis = netutil.LimitListener(lis, 10)
 
 	var quoteServer = &Server{}
-
 	if err := quoteServer.initialize(); err != nil {
-		log.Fatalf("failed to initialize: %v", err)
+		log.Fatalf("failed to initialize server: %v", err)
 	}
+
 	defer quoteServer.logger.Sync()
 	defer quoteServer.client.Close()
 
-	s := grpc.NewServer(
-		quoteServer.ServerUnaryInterceptor(),
-		quoteServer.ServerStreamInterceptor(),
-		grpc.MaxConcurrentStreams(164),
-	)
+	s := quoteServer.newGrpcServer()
 
 	pb.RegisterQuoteToolServer(s, quoteServer.svc)
 
