@@ -19,15 +19,15 @@ export class QuoteToolClient {
     request: quote_pb.QuoteService.Quote,
     metadata: grpcWeb.Metadata | undefined,
     callback: (err: grpcWeb.RpcError,
-               response: quote_pb.QuoteService.QuoteCreateResponse) => void
-  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteCreateResponse>;
+               response: quote_pb.QuoteService.QuoteIdResponse) => void
+  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteIdResponse>;
 
   updateQuote(
     request: quote_pb.QuoteService.Quote,
     metadata: grpcWeb.Metadata | undefined,
     callback: (err: grpcWeb.RpcError,
-               response: quote_pb.QuoteService.QuoteUpdateResponse) => void
-  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteUpdateResponse>;
+               response: quote_pb.QuoteService.QuoteIdResponse) => void
+  ): grpcWeb.ClientReadableStream<quote_pb.QuoteService.QuoteIdResponse>;
 
   deleteQuote(
     request: quote_pb.QuoteService.QuoteRequest,
@@ -63,12 +63,12 @@ export class QuoteToolPromiseClient {
   createQuote(
     request: quote_pb.QuoteService.Quote,
     metadata?: grpcWeb.Metadata
-  ): Promise<quote_pb.QuoteService.QuoteCreateResponse>;
+  ): Promise<quote_pb.QuoteService.QuoteIdResponse>;
 
   updateQuote(
     request: quote_pb.QuoteService.Quote,
     metadata?: grpcWeb.Metadata
-  ): Promise<quote_pb.QuoteService.QuoteUpdateResponse>;
+  ): Promise<quote_pb.QuoteService.QuoteIdResponse>;
 
   deleteQuote(
     request: quote_pb.QuoteService.QuoteRequest,

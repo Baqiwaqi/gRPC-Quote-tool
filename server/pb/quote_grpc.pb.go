@@ -24,8 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type QuoteToolClient interface {
 	// v1
 	GetQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteResponse, error)
-	CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteCreateResponse, error)
-	UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteUpdateResponse, error)
+	CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteIdResponse, error)
+	UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteIdResponse, error)
 	DeleteQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteDeleteResponse, error)
 	// v2
 	GetQuoteList(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (*QuoteService_QuotesListResponse, error)
@@ -42,25 +42,25 @@ func NewQuoteToolClient(cc grpc.ClientConnInterface) QuoteToolClient {
 
 func (c *quoteToolClient) GetQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteResponse, error) {
 	out := new(QuoteService_QuoteResponse)
-	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/GetQuote", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/quote.tool.QuoteTool/GetQuote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *quoteToolClient) CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteCreateResponse, error) {
-	out := new(QuoteService_QuoteCreateResponse)
-	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/CreateQuote", in, out, opts...)
+func (c *quoteToolClient) CreateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteIdResponse, error) {
+	out := new(QuoteService_QuoteIdResponse)
+	err := c.cc.Invoke(ctx, "/quote.tool.QuoteTool/CreateQuote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *quoteToolClient) UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteUpdateResponse, error) {
-	out := new(QuoteService_QuoteUpdateResponse)
-	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/UpdateQuote", in, out, opts...)
+func (c *quoteToolClient) UpdateQuote(ctx context.Context, in *QuoteService_Quote, opts ...grpc.CallOption) (*QuoteService_QuoteIdResponse, error) {
+	out := new(QuoteService_QuoteIdResponse)
+	err := c.cc.Invoke(ctx, "/quote.tool.QuoteTool/UpdateQuote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (c *quoteToolClient) UpdateQuote(ctx context.Context, in *QuoteService_Quot
 
 func (c *quoteToolClient) DeleteQuote(ctx context.Context, in *QuoteService_QuoteRequest, opts ...grpc.CallOption) (*QuoteService_QuoteDeleteResponse, error) {
 	out := new(QuoteService_QuoteDeleteResponse)
-	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/DeleteQuote", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/quote.tool.QuoteTool/DeleteQuote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (c *quoteToolClient) DeleteQuote(ctx context.Context, in *QuoteService_Quot
 
 func (c *quoteToolClient) GetQuoteList(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (*QuoteService_QuotesListResponse, error) {
 	out := new(QuoteService_QuotesListResponse)
-	err := c.cc.Invoke(ctx, "/quoteTool.QuoteTool/GetQuoteList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/quote.tool.QuoteTool/GetQuoteList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *quoteToolClient) GetQuoteList(ctx context.Context, in *QuoteService_NoP
 }
 
 func (c *quoteToolClient) StreamQuotes(ctx context.Context, in *QuoteService_NoParams, opts ...grpc.CallOption) (QuoteTool_StreamQuotesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &QuoteTool_ServiceDesc.Streams[0], "/quoteTool.QuoteTool/StreamQuotes", opts...)
+	stream, err := c.cc.NewStream(ctx, &QuoteTool_ServiceDesc.Streams[0], "/quote.tool.QuoteTool/StreamQuotes", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,8 +123,8 @@ func (x *quoteToolStreamQuotesClient) Recv() (*QuoteService_QuoteStreamResponse,
 type QuoteToolServer interface {
 	// v1
 	GetQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteResponse, error)
-	CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteCreateResponse, error)
-	UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteUpdateResponse, error)
+	CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteIdResponse, error)
+	UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteIdResponse, error)
 	DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error)
 	// v2
 	GetQuoteList(context.Context, *QuoteService_NoParams) (*QuoteService_QuotesListResponse, error)
@@ -139,10 +139,10 @@ type UnimplementedQuoteToolServer struct {
 func (UnimplementedQuoteToolServer) GetQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetQuote not implemented")
 }
-func (UnimplementedQuoteToolServer) CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteCreateResponse, error) {
+func (UnimplementedQuoteToolServer) CreateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateQuote not implemented")
 }
-func (UnimplementedQuoteToolServer) UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteUpdateResponse, error) {
+func (UnimplementedQuoteToolServer) UpdateQuote(context.Context, *QuoteService_Quote) (*QuoteService_QuoteIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateQuote not implemented")
 }
 func (UnimplementedQuoteToolServer) DeleteQuote(context.Context, *QuoteService_QuoteRequest) (*QuoteService_QuoteDeleteResponse, error) {
@@ -177,7 +177,7 @@ func _QuoteTool_GetQuote_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quoteTool.QuoteTool/GetQuote",
+		FullMethod: "/quote.tool.QuoteTool/GetQuote",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QuoteToolServer).GetQuote(ctx, req.(*QuoteService_QuoteRequest))
@@ -195,7 +195,7 @@ func _QuoteTool_CreateQuote_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quoteTool.QuoteTool/CreateQuote",
+		FullMethod: "/quote.tool.QuoteTool/CreateQuote",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QuoteToolServer).CreateQuote(ctx, req.(*QuoteService_Quote))
@@ -213,7 +213,7 @@ func _QuoteTool_UpdateQuote_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quoteTool.QuoteTool/UpdateQuote",
+		FullMethod: "/quote.tool.QuoteTool/UpdateQuote",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QuoteToolServer).UpdateQuote(ctx, req.(*QuoteService_Quote))
@@ -231,7 +231,7 @@ func _QuoteTool_DeleteQuote_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quoteTool.QuoteTool/DeleteQuote",
+		FullMethod: "/quote.tool.QuoteTool/DeleteQuote",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QuoteToolServer).DeleteQuote(ctx, req.(*QuoteService_QuoteRequest))
@@ -249,7 +249,7 @@ func _QuoteTool_GetQuoteList_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quoteTool.QuoteTool/GetQuoteList",
+		FullMethod: "/quote.tool.QuoteTool/GetQuoteList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QuoteToolServer).GetQuoteList(ctx, req.(*QuoteService_NoParams))
@@ -282,7 +282,7 @@ func (x *quoteToolStreamQuotesServer) Send(m *QuoteService_QuoteStreamResponse) 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var QuoteTool_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "quoteTool.QuoteTool",
+	ServiceName: "quote.tool.QuoteTool",
 	HandlerType: (*QuoteToolServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

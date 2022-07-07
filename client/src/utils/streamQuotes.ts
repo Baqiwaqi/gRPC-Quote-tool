@@ -5,8 +5,9 @@ import client from "./grpcClient"
 
 export const useStreamQuotes = () => {
   const [quotes, setQuotes] = useState<QuoteService.Quote.AsObject[]>([])
-
-  function handleResponse(quoteResponse: QuoteService.QuoteSteamResponse) {
+  console.log(quotes);
+  
+  function handleResponse(quoteResponse: QuoteService.QuoteStreamResponse) {
     var response = quoteResponse.toObject()
     // enum ChangeType {
       //   ADDED = 0;
@@ -41,6 +42,8 @@ export const useStreamQuotes = () => {
     const stream = client.streamQuotes(request)
 
     stream.on("data", (quoteResponse) => {
+      console.log(quoteResponse.toObject());
+      
       handleResponse(quoteResponse);
     }).on("error", (err) => {
       console.error(err)

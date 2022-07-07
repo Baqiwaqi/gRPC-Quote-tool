@@ -1,17 +1,17 @@
 syntax = "proto3";
 
-package quoteTool;
+package quote.tool;
 
 option go_package = "github.com/baqiwaqi/quote-service";
 
 service QuoteTool {
   // v1
   rpc GetQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteResponse);
-  rpc CreateQuote(QuoteService.Quote) returns (QuoteService.QuoteCreateResponse);
-  rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteUpdateResponse);
+  rpc CreateQuote(QuoteService.Quote) returns (QuoteService.QuoteIdResponse);
+  rpc UpdateQuote(QuoteService.Quote) returns (QuoteService.QuoteIdResponse);
   rpc DeleteQuote(QuoteService.QuoteRequest) returns (QuoteService.QuoteDeleteResponse);
   // v2
-  rpc GetQuoteList(QuoteService.NoParams) returns (QuoteService.QuotesListResponse);
+  rpc GetQuoteList(QuoteService.NoParams)returns (QuoteService.QuotesListResponse);
   rpc StreamQuotes(QuoteService.NoParams) returns (stream QuoteService.QuoteStreamResponse);
 }
 
@@ -19,56 +19,71 @@ message QuoteService {
   message Quote {
     string id = 1;
     string carrier = 2;
-    string customer = 3;
+    Customer customer = 3;
     string customer_ref = 4;
-    repeated CustomerContact customer_contact = 5;
-    string availableDate = 6;
+    repeated Customer.Contact customer_contacts = 5;
+    string available_date = 6;
     string product = 7;
-    string collectFrom = 8;
+    string collect_from = 8;
     string origin = 9;
     string destination = 10;
-    string cargoType = 11;
-    bool isDangerous = 12;
-    bool canBeTurned = 13;
-    bool isKnown = 14;
-    bool aircraftOnly = 15;
+    string cargo_type = 11;
+    bool is_dangerous = 12;
+    bool can_be_turned = 13;
+    bool is_known = 14;
+    bool aircraft_only = 15;
     string description = 16;
-    string sizeMetric = 17;
-    string weightMetric = 18;
-    repeated Cargo cargo = 19;
-    Rate rate = 20;
+    string size_metric = 17;
+    string weight_metric = 18;
+    Cargo cargo = 19;
+    Rates.Rate rate = 20;
   }
-
-  message CustomerContact {
-    string name = 2;
-    string phone = 3;
-    string email = 4;
+  
+  message Customer {
+    string name = 1;
+    message Contact {
+      string name = 2;
+      string phone = 3;
+      string email = 4;
+    }
   }
-
+  
   message Cargo {
-    int64 pieces = 1;
-    int64 cLength = 2;
-    int64 width = 3;
-    int64 height = 4;
-    int64 grossWeight = 5;
+    int32 total_pieces = 1;
+    int32 total_weight = 2;
+    int32 total_volume = 3;
+  
+    repeated Specification specifications = 4;
+  
+    message Specification {
+      int32 pieces = 1;
+      Dimensions Dimensions = 4;
+      float gross_weight = 5;
+    }
+  
+    message Dimensions {
+      int32 length = 1;
+      int32 width = 2;
+      int32 height = 3;
+    }
   }
-  message Rate {
-    string on = 1;
-    float costMin = 2;
-    float costRate = 3;
-    float salesMin = 4;
-    float salesRate = 5;
-    string currency = 6;
+  message Rates {
+    message Rate {
+      string on = 1;
+      float cost_min = 2;
+      float cost_rate = 3;
+      float sales_min = 4;
+      float sales_rate = 5;
+      string currency = 6;
+    }
   }
-
+  
   message NoParams {}
   // v1
   message QuoteRequest { string id = 1; }
   message QuoteResponse { Quote quote = 1; }
-  message QuoteCreateResponse { string response = 1; }
-  message QuoteUpdateResponse { string response = 1; }
-  message QuoteDeleteResponse { string response = 1; }
-
+  message QuoteIdResponse { string id = 1; }
+  message QuoteDeleteResponse { string respsone = 1; }
   // v2
   message QuotesListResponse { repeated Quote quotes = 1; }
   message QuoteStreamResponse {
@@ -81,3 +96,127 @@ message QuoteService {
     ChangeType changeType = 2;
   }
 }
+
+// message Quote {
+//   string id = 1;
+//   string carrier = 2;
+//   Customer customer = 3;
+//   string customer_ref = 4;
+//   repeated Customer.Contact customer_contacts = 5;
+//   string available_date = 6;
+//   string product = 7;
+//   string collect_from = 8;
+//   string origin = 9;
+//   string destination = 10;
+//   string cargo_type = 11;
+//   bool is_dangerous = 12;
+//   bool can_be_turned = 13;
+//   bool is_known = 14;
+//   bool aircraft_only = 15;
+//   string description = 16;
+//   string size_metric = 17;
+//   string weight_metric = 18;
+//   repeated Cargo cargo = 19;
+//   Rates.Rate rate = 20;
+// }
+
+// message Customer {
+//   string name = 1;
+//   message Contact {
+//     string name = 2;
+//     string phone = 3;
+//     string email = 4;
+//   }
+// }
+
+// message Cargo {
+//   int32 total_pieces = 1;
+//   int32 total_weight = 2;
+//   int32 total_volume = 3;
+
+//   repeated Specification specifications = 4;
+
+//   message Specification {
+//     int32 pieces = 1;
+//     Dimensions Dimensions = 4;
+//     float gross_weight = 5;
+//   }
+
+//   message Dimensions {
+//     int32 length = 1;
+//     int32 width = 2;
+//     int32 height = 3;
+//   }
+// }
+// message Rates {
+//   message Rate {
+//     string on = 1;
+//     float cost_min = 2;
+//     float cost_rate = 3;
+//     float sales_min = 4;
+//     float sales_rate = 5;
+//     string currency = 6;
+//   }
+// }
+
+// message quoteTool.QuoteQuote {
+//   string id = 1;
+//   string carrier = 2;
+//   Customer customer = 3;
+//   string customer_ref = 4;
+//   repeated Customer.Contact customer_contacts = 5;
+//   string available_date = 6;
+//   string product = 7;
+//   string collect_from = 8;
+//   string origin = 9;
+//   string destination = 10;
+//   string cargo_type = 11;
+//   bool is_dangerous = 12;
+//   bool can_be_turned = 13;
+//   bool is_known = 14;
+//   bool aircraft_only = 15;
+//   string description = 16;
+//   string size_metric = 17;
+//   string weight_metric = 18;
+//   repeated Cargo cargo = 19;
+//   Rates.Rate rate = 20;
+// }
+
+// message Customer {
+//   string name = 1;
+//   message Contact {
+//     string name = 2;
+//     string phone = 3;
+//     string email = 4;
+//   }
+// }
+
+// message Cargo {
+//   int32 total_pieces = 1;
+//   int32 total_weight = 2;
+//   int32 total_volume = 3;
+
+//   repeated Specification specifications = 4;
+
+//   message Specification {
+//     int32 pieces = 1;
+//     Dimensions Dimensions = 4;
+//     float gross_weight = 5;
+//   }
+
+//   message Dimensions {
+//     int32 length = 1;
+//     int32 width = 2;
+//     int32 height = 3;
+//   }
+// }
+// message Rates {
+//   message Rate {
+//     string on = 1;
+//     float cost_min = 2;
+//     float cost_rate = 3;
+//     float sales_min = 4;
+//     float sales_rate = 5;
+//     string currency = 6;
+//   }
+// }

@@ -2,5 +2,6 @@ make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/tim/Documents/grpc-projects/grpc_quote_tool'
 echo generate protobuf
 sh generate.sh
+sh buildproto.sh
 make: Leaving directory `/Users/tim/Documents/grpc-projects/grpc_quote_tool'
  

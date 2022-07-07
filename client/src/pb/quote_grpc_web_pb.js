@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for quoteTool
+ * @fileoverview gRPC-Web generated client stub for quote.tool
  * @enhanceable
  * @public
  */
@@ -16,7 +16,8 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 const proto = {};
-proto.quoteTool = require('./quote_pb.js');
+proto.quote = {};
+proto.quote.tool = require('./quote_pb.js');
 
 /**
  * @param {string} hostname
@@ -26,7 +27,7 @@ proto.quoteTool = require('./quote_pb.js');
  * @struct
  * @final
  */
-proto.quoteTool.QuoteToolClient =
+proto.quote.tool.QuoteToolClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -52,7 +53,7 @@ proto.quoteTool.QuoteToolClient =
  * @struct
  * @final
  */
-proto.quoteTool.QuoteToolPromiseClient =
+proto.quote.tool.QuoteToolPromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -73,39 +74,39 @@ proto.quoteTool.QuoteToolPromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.QuoteRequest,
- *   !proto.quoteTool.QuoteService.QuoteResponse>}
+ *   !proto.quote.tool.QuoteService.QuoteRequest,
+ *   !proto.quote.tool.QuoteService.QuoteResponse>}
  */
 const methodDescriptor_QuoteTool_GetQuote = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/GetQuote',
+  '/quote.tool.QuoteTool/GetQuote',
   grpc.web.MethodType.UNARY,
-  proto.quoteTool.QuoteService.QuoteRequest,
-  proto.quoteTool.QuoteService.QuoteResponse,
+  proto.quote.tool.QuoteService.QuoteRequest,
+  proto.quote.tool.QuoteService.QuoteResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.QuoteRequest} request
+   * @param {!proto.quote.tool.QuoteService.QuoteRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuoteResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuoteResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.QuoteRequest} request The
+ * @param {!proto.quote.tool.QuoteService.QuoteRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.quoteTool.QuoteService.QuoteResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.quote.tool.QuoteService.QuoteResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.getQuote =
+proto.quote.tool.QuoteToolClient.prototype.getQuote =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/quoteTool.QuoteTool/GetQuote',
+      '/quote.tool.QuoteTool/GetQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_GetQuote,
@@ -114,17 +115,17 @@ proto.quoteTool.QuoteToolClient.prototype.getQuote =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.QuoteRequest} request The
+ * @param {!proto.quote.tool.QuoteService.QuoteRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.quoteTool.QuoteService.QuoteResponse>}
+ * @return {!Promise<!proto.quote.tool.QuoteService.QuoteResponse>}
  *     Promise that resolves to the response
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.getQuote =
+proto.quote.tool.QuoteToolPromiseClient.prototype.getQuote =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/quoteTool.QuoteTool/GetQuote',
+      '/quote.tool.QuoteTool/GetQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_GetQuote);
@@ -134,39 +135,39 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.getQuote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.Quote,
- *   !proto.quoteTool.QuoteService.QuoteCreateResponse>}
+ *   !proto.quote.tool.QuoteService.Quote,
+ *   !proto.quote.tool.QuoteService.QuoteIdResponse>}
  */
 const methodDescriptor_QuoteTool_CreateQuote = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/CreateQuote',
+  '/quote.tool.QuoteTool/CreateQuote',
   grpc.web.MethodType.UNARY,
-  proto.quoteTool.QuoteService.Quote,
-  proto.quoteTool.QuoteService.QuoteCreateResponse,
+  proto.quote.tool.QuoteService.Quote,
+  proto.quote.tool.QuoteService.QuoteIdResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.Quote} request
+   * @param {!proto.quote.tool.QuoteService.Quote} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuoteCreateResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuoteIdResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.Quote} request The
+ * @param {!proto.quote.tool.QuoteService.Quote} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.quoteTool.QuoteService.QuoteCreateResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.quote.tool.QuoteService.QuoteIdResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteCreateResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteIdResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.createQuote =
+proto.quote.tool.QuoteToolClient.prototype.createQuote =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/quoteTool.QuoteTool/CreateQuote',
+      '/quote.tool.QuoteTool/CreateQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_CreateQuote,
@@ -175,17 +176,17 @@ proto.quoteTool.QuoteToolClient.prototype.createQuote =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.Quote} request The
+ * @param {!proto.quote.tool.QuoteService.Quote} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.quoteTool.QuoteService.QuoteCreateResponse>}
+ * @return {!Promise<!proto.quote.tool.QuoteService.QuoteIdResponse>}
  *     Promise that resolves to the response
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.createQuote =
+proto.quote.tool.QuoteToolPromiseClient.prototype.createQuote =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/quoteTool.QuoteTool/CreateQuote',
+      '/quote.tool.QuoteTool/CreateQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_CreateQuote);
@@ -195,39 +196,39 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.createQuote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.Quote,
- *   !proto.quoteTool.QuoteService.QuoteUpdateResponse>}
+ *   !proto.quote.tool.QuoteService.Quote,
+ *   !proto.quote.tool.QuoteService.QuoteIdResponse>}
  */
 const methodDescriptor_QuoteTool_UpdateQuote = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/UpdateQuote',
+  '/quote.tool.QuoteTool/UpdateQuote',
   grpc.web.MethodType.UNARY,
-  proto.quoteTool.QuoteService.Quote,
-  proto.quoteTool.QuoteService.QuoteUpdateResponse,
+  proto.quote.tool.QuoteService.Quote,
+  proto.quote.tool.QuoteService.QuoteIdResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.Quote} request
+   * @param {!proto.quote.tool.QuoteService.Quote} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuoteUpdateResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuoteIdResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.Quote} request The
+ * @param {!proto.quote.tool.QuoteService.Quote} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.quoteTool.QuoteService.QuoteUpdateResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.quote.tool.QuoteService.QuoteIdResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteUpdateResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteIdResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.updateQuote =
+proto.quote.tool.QuoteToolClient.prototype.updateQuote =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/quoteTool.QuoteTool/UpdateQuote',
+      '/quote.tool.QuoteTool/UpdateQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_UpdateQuote,
@@ -236,17 +237,17 @@ proto.quoteTool.QuoteToolClient.prototype.updateQuote =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.Quote} request The
+ * @param {!proto.quote.tool.QuoteService.Quote} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.quoteTool.QuoteService.QuoteUpdateResponse>}
+ * @return {!Promise<!proto.quote.tool.QuoteService.QuoteIdResponse>}
  *     Promise that resolves to the response
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.updateQuote =
+proto.quote.tool.QuoteToolPromiseClient.prototype.updateQuote =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/quoteTool.QuoteTool/UpdateQuote',
+      '/quote.tool.QuoteTool/UpdateQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_UpdateQuote);
@@ -256,39 +257,39 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.updateQuote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.QuoteRequest,
- *   !proto.quoteTool.QuoteService.QuoteDeleteResponse>}
+ *   !proto.quote.tool.QuoteService.QuoteRequest,
+ *   !proto.quote.tool.QuoteService.QuoteDeleteResponse>}
  */
 const methodDescriptor_QuoteTool_DeleteQuote = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/DeleteQuote',
+  '/quote.tool.QuoteTool/DeleteQuote',
   grpc.web.MethodType.UNARY,
-  proto.quoteTool.QuoteService.QuoteRequest,
-  proto.quoteTool.QuoteService.QuoteDeleteResponse,
+  proto.quote.tool.QuoteService.QuoteRequest,
+  proto.quote.tool.QuoteService.QuoteDeleteResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.QuoteRequest} request
+   * @param {!proto.quote.tool.QuoteService.QuoteRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuoteDeleteResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuoteDeleteResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.QuoteRequest} request The
+ * @param {!proto.quote.tool.QuoteService.QuoteRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.quoteTool.QuoteService.QuoteDeleteResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.quote.tool.QuoteService.QuoteDeleteResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteDeleteResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteDeleteResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.deleteQuote =
+proto.quote.tool.QuoteToolClient.prototype.deleteQuote =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/quoteTool.QuoteTool/DeleteQuote',
+      '/quote.tool.QuoteTool/DeleteQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_DeleteQuote,
@@ -297,17 +298,17 @@ proto.quoteTool.QuoteToolClient.prototype.deleteQuote =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.QuoteRequest} request The
+ * @param {!proto.quote.tool.QuoteService.QuoteRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.quoteTool.QuoteService.QuoteDeleteResponse>}
+ * @return {!Promise<!proto.quote.tool.QuoteService.QuoteDeleteResponse>}
  *     Promise that resolves to the response
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.deleteQuote =
+proto.quote.tool.QuoteToolPromiseClient.prototype.deleteQuote =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/quoteTool.QuoteTool/DeleteQuote',
+      '/quote.tool.QuoteTool/DeleteQuote',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_DeleteQuote);
@@ -317,39 +318,39 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.deleteQuote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.NoParams,
- *   !proto.quoteTool.QuoteService.QuotesListResponse>}
+ *   !proto.quote.tool.QuoteService.NoParams,
+ *   !proto.quote.tool.QuoteService.QuotesListResponse>}
  */
 const methodDescriptor_QuoteTool_GetQuoteList = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/GetQuoteList',
+  '/quote.tool.QuoteTool/GetQuoteList',
   grpc.web.MethodType.UNARY,
-  proto.quoteTool.QuoteService.NoParams,
-  proto.quoteTool.QuoteService.QuotesListResponse,
+  proto.quote.tool.QuoteService.NoParams,
+  proto.quote.tool.QuoteService.QuotesListResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.NoParams} request
+   * @param {!proto.quote.tool.QuoteService.NoParams} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuotesListResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuotesListResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.NoParams} request The
+ * @param {!proto.quote.tool.QuoteService.NoParams} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.quoteTool.QuoteService.QuotesListResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.quote.tool.QuoteService.QuotesListResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuotesListResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuotesListResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.getQuoteList =
+proto.quote.tool.QuoteToolClient.prototype.getQuoteList =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/quoteTool.QuoteTool/GetQuoteList',
+      '/quote.tool.QuoteTool/GetQuoteList',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_GetQuoteList,
@@ -358,17 +359,17 @@ proto.quoteTool.QuoteToolClient.prototype.getQuoteList =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.NoParams} request The
+ * @param {!proto.quote.tool.QuoteService.NoParams} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.quoteTool.QuoteService.QuotesListResponse>}
+ * @return {!Promise<!proto.quote.tool.QuoteService.QuotesListResponse>}
  *     Promise that resolves to the response
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.getQuoteList =
+proto.quote.tool.QuoteToolPromiseClient.prototype.getQuoteList =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/quoteTool.QuoteTool/GetQuoteList',
+      '/quote.tool.QuoteTool/GetQuoteList',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_GetQuoteList);
@@ -378,36 +379,36 @@ proto.quoteTool.QuoteToolPromiseClient.prototype.getQuoteList =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.quoteTool.QuoteService.NoParams,
- *   !proto.quoteTool.QuoteService.QuoteStreamResponse>}
+ *   !proto.quote.tool.QuoteService.NoParams,
+ *   !proto.quote.tool.QuoteService.QuoteStreamResponse>}
  */
 const methodDescriptor_QuoteTool_StreamQuotes = new grpc.web.MethodDescriptor(
-  '/quoteTool.QuoteTool/StreamQuotes',
+  '/quote.tool.QuoteTool/StreamQuotes',
   grpc.web.MethodType.SERVER_STREAMING,
-  proto.quoteTool.QuoteService.NoParams,
-  proto.quoteTool.QuoteService.QuoteStreamResponse,
+  proto.quote.tool.QuoteService.NoParams,
+  proto.quote.tool.QuoteService.QuoteStreamResponse,
   /**
-   * @param {!proto.quoteTool.QuoteService.NoParams} request
+   * @param {!proto.quote.tool.QuoteService.NoParams} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.quoteTool.QuoteService.QuoteStreamResponse.deserializeBinary
+  proto.quote.tool.QuoteService.QuoteStreamResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.NoParams} request The request proto
+ * @param {!proto.quote.tool.QuoteService.NoParams} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteStreamResponse>}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteStreamResponse>}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolClient.prototype.streamQuotes =
+proto.quote.tool.QuoteToolClient.prototype.streamQuotes =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/quoteTool.QuoteTool/StreamQuotes',
+      '/quote.tool.QuoteTool/StreamQuotes',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_StreamQuotes);
@@ -415,21 +416,21 @@ proto.quoteTool.QuoteToolClient.prototype.streamQuotes =
 
 
 /**
- * @param {!proto.quoteTool.QuoteService.NoParams} request The request proto
+ * @param {!proto.quote.tool.QuoteService.NoParams} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.quoteTool.QuoteService.QuoteStreamResponse>}
+ * @return {!grpc.web.ClientReadableStream<!proto.quote.tool.QuoteService.QuoteStreamResponse>}
  *     The XHR Node Readable Stream
  */
-proto.quoteTool.QuoteToolPromiseClient.prototype.streamQuotes =
+proto.quote.tool.QuoteToolPromiseClient.prototype.streamQuotes =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/quoteTool.QuoteTool/StreamQuotes',
+      '/quote.tool.QuoteTool/StreamQuotes',
       request,
       metadata || {},
       methodDescriptor_QuoteTool_StreamQuotes);
 };
 
 
-module.exports = proto.quoteTool;
+module.exports = proto.quote.tool;
 

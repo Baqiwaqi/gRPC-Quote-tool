@@ -1,4 +1,5 @@
 import { flushSync } from 'react-dom';
+import grpc from 'grpc-web';
 import { useEffect, useState } from 'react';
 import { QuoteService } from '../pb/quote_pb';
 import JSONPretty from 'react-json-pretty';
@@ -31,7 +32,7 @@ export default function Home() {
     console.log("getQuote start:", time);
     const request = new QuoteService.QuoteRequest();
     request.setId(quoteId)
-    client.getQuote(request, undefined, (err: Error | null, response: any) => {
+    client.getQuote(request, undefined, (err: Error | null, response: QuoteService.QuoteResponse) => {
       if (err) {
         // setQuoteResponse(err.message)
         console.log(err.message);
@@ -48,7 +49,7 @@ export default function Home() {
 
   const createQuote = async () => {
     console.log("createQuote start:", time);
-    const request = new QuoteService.Quote;
+    const request = new QuoteService.Quote();
     client.createQuote(request, undefined, (err: Error | null, response: any) => {
       if (err) {
         console.log(err.message);
@@ -66,7 +67,7 @@ export default function Home() {
   const updateQuote = async () => {
     const request = new QuoteService.Quote;
     request.setId(quoteId);
-    request.setCustomer("John Doe");
+    
     client.updateQuote(request, undefined, (err: Error | null, response: any) => {
       if (err) {
         console.log(err.message);
@@ -159,12 +160,6 @@ export default function Home() {
             >
               List all
             </button>
-            {/* <button className="bg-blue-500 active:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={useClosestreamQuotes}
-            >
-              closestream
-            </button> */}
-
           </div>
         </div>
 
@@ -180,7 +175,7 @@ export default function Home() {
             return (
               <div key={index} className="items-st">
                 <h5 className='font-bold'>{quote.id}</h5>
-                <p className="">Customer: {quote.customer}</p>
+                {/* <p className="">Customer: {quote.customer}</p> */}
               </div>
             )
           })}

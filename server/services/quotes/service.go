@@ -39,7 +39,7 @@ func (s *Service) GetQuote(ctx context.Context, req *pb.QuoteService_QuoteReques
 	return &pb.QuoteService_QuoteResponse{Quote: resp}, nil
 }
 
-func (s *Service) CreateQuote(ctx context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteCreateResponse, error) {
+func (s *Service) CreateQuote(ctx context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteIdResponse, error) {
 	// request firestore create firestore
 	resp, err := s.db.Create(ctx, req)
 	if err != nil {
@@ -47,10 +47,10 @@ func (s *Service) CreateQuote(ctx context.Context, req *pb.QuoteService_Quote) (
 	}
 	s.log.Debug("Quote created", zap.String("id", resp))
 
-	return &pb.QuoteService_QuoteCreateResponse{Response: "Quote succesfully created"}, nil
+	return &pb.QuoteService_QuoteIdResponse{Id: resp}, nil
 }
 
-func (s *Service) UpdateQuotes(ctx context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteUpdateResponse, error) {
+func (s *Service) UpdateQuotes(ctx context.Context, req *pb.QuoteService_Quote) (*pb.QuoteService_QuoteIdResponse, error) {
 	// request firestore update firestore
 	resp, err := s.db.Update(ctx, req)
 	if err != nil {
@@ -58,7 +58,7 @@ func (s *Service) UpdateQuotes(ctx context.Context, req *pb.QuoteService_Quote) 
 	}
 	s.log.Debug("Quote updated", zap.String("id", resp))
 
-	return &pb.QuoteService_QuoteUpdateResponse{Response: "Quote succesfully updated"}, nil
+	return &pb.QuoteService_QuoteIdResponse{Id: resp}, nil
 }
 
 func (s *Service) DeleteQuote(ctx context.Context, req *pb.QuoteService_QuoteRequest) (*pb.QuoteService_QuoteDeleteResponse, error) {
@@ -69,7 +69,7 @@ func (s *Service) DeleteQuote(ctx context.Context, req *pb.QuoteService_QuoteReq
 	}
 	s.log.Debug("Quote deleted", zap.String("id", req.Id))
 
-	return &pb.QuoteService_QuoteDeleteResponse{Response: "Quote succesfully deleted"}, nil
+	return &pb.QuoteService_QuoteDeleteResponse{Respsone: "Quote succesfully deleted"}, nil
 }
 
 func (s *Service) GetQuoteList(ctx context.Context, req *pb.QuoteService_NoParams) (*pb.QuoteService_QuotesListResponse, error) {
@@ -86,7 +86,8 @@ func (s *Service) StreamQuotes(req *pb.QuoteService_NoParams, stream pb.QuoteToo
 	ctx, cancel := context.WithTimeout(ctx, 180*time.Second)
 	defer cancel()
 
-	iter := s.db.GetSnapshots(ctx)
+	// iter := s.db.GetSnapshots(ctx)
+	iter := s.db.Client.Collection("quotes").Snapshots(ctx)
 	for {
 		snap, err := iter.Next()
 		// DeadlineExceeded will be returned when ctx is cancelled.

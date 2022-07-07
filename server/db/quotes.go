@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 
-	"cloud.google.com/go/firestore"
 	pb "github.com/bawiwaqi/quote-service/pb"
 	"google.golang.org/api/iterator"
 )
@@ -73,7 +72,7 @@ func (c *FirestoreClient) GetList(ctx context.Context) (quotes []*pb.QuoteServic
 	return quotes, nil
 }
 
-func (c *FirestoreClient) GetSnapshots(ctx context.Context) *firestore.QuerySnapshotIterator {
-	iter := c.Collection("quotes").Snapshots(ctx)
-	return iter
-}
+// func (c *FirestoreClient) GetSnapshots(ctx context.Context) *firestore.QuerySnapshotIterator {
+// 	iter := c.Collection("quotes").Snapshots(ctx)
+// 	return iter
+// }

@@ -22,25 +22,27 @@ export namespace QuoteService {
     getCarrier(): string;
     setCarrier(value: string): Quote;
 
-    getCustomer(): string;
-    setCustomer(value: string): Quote;
+    getCustomer(): QuoteService.Customer | undefined;
+    setCustomer(value?: QuoteService.Customer): Quote;
+    hasCustomer(): boolean;
+    clearCustomer(): Quote;
 
     getCustomerRef(): string;
     setCustomerRef(value: string): Quote;
 
-    getCustomerContactList(): Array<QuoteService.CustomerContact>;
-    setCustomerContactList(value: Array<QuoteService.CustomerContact>): Quote;
-    clearCustomerContactList(): Quote;
-    addCustomerContact(value?: QuoteService.CustomerContact, index?: number): QuoteService.CustomerContact;
+    getCustomerContactsList(): Array<QuoteService.Customer.Contact>;
+    setCustomerContactsList(value: Array<QuoteService.Customer.Contact>): Quote;
+    clearCustomerContactsList(): Quote;
+    addCustomerContacts(value?: QuoteService.Customer.Contact, index?: number): QuoteService.Customer.Contact;
 
-    getAvailabledate(): string;
-    setAvailabledate(value: string): Quote;
+    getAvailableDate(): string;
+    setAvailableDate(value: string): Quote;
 
     getProduct(): string;
     setProduct(value: string): Quote;
 
-    getCollectfrom(): string;
-    setCollectfrom(value: string): Quote;
+    getCollectFrom(): string;
+    setCollectFrom(value: string): Quote;
 
     getOrigin(): string;
     setOrigin(value: string): Quote;
@@ -48,37 +50,37 @@ export namespace QuoteService {
     getDestination(): string;
     setDestination(value: string): Quote;
 
-    getCargotype(): string;
-    setCargotype(value: string): Quote;
+    getCargoType(): string;
+    setCargoType(value: string): Quote;
 
-    getIsdangerous(): boolean;
-    setIsdangerous(value: boolean): Quote;
+    getIsDangerous(): boolean;
+    setIsDangerous(value: boolean): Quote;
 
-    getCanbeturned(): boolean;
-    setCanbeturned(value: boolean): Quote;
+    getCanBeTurned(): boolean;
+    setCanBeTurned(value: boolean): Quote;
 
-    getIsknown(): boolean;
-    setIsknown(value: boolean): Quote;
+    getIsKnown(): boolean;
+    setIsKnown(value: boolean): Quote;
 
-    getAircraftonly(): boolean;
-    setAircraftonly(value: boolean): Quote;
+    getAircraftOnly(): boolean;
+    setAircraftOnly(value: boolean): Quote;
 
     getDescription(): string;
     setDescription(value: string): Quote;
 
-    getSizemetric(): string;
-    setSizemetric(value: string): Quote;
+    getSizeMetric(): string;
+    setSizeMetric(value: string): Quote;
 
-    getWeightmetric(): string;
-    setWeightmetric(value: string): Quote;
+    getWeightMetric(): string;
+    setWeightMetric(value: string): Quote;
 
     getCargoList(): Array<QuoteService.Cargo>;
     setCargoList(value: Array<QuoteService.Cargo>): Quote;
     clearCargoList(): Quote;
     addCargo(value?: QuoteService.Cargo, index?: number): QuoteService.Cargo;
 
-    getRate(): QuoteService.Rate | undefined;
-    setRate(value?: QuoteService.Rate): Quote;
+    getRate(): QuoteService.Rates.Rate | undefined;
+    setRate(value?: QuoteService.Rates.Rate): Quote;
     hasRate(): boolean;
     clearRate(): Quote;
 
@@ -94,70 +96,88 @@ export namespace QuoteService {
     export type AsObject = {
       id: string,
       carrier: string,
-      customer: string,
+      customer?: QuoteService.Customer.AsObject,
       customerRef: string,
-      customerContactList: Array<QuoteService.CustomerContact.AsObject>,
-      availabledate: string,
+      customerContactsList: Array<QuoteService.Customer.Contact.AsObject>,
+      availableDate: string,
       product: string,
-      collectfrom: string,
+      collectFrom: string,
       origin: string,
       destination: string,
-      cargotype: string,
-      isdangerous: boolean,
-      canbeturned: boolean,
-      isknown: boolean,
-      aircraftonly: boolean,
+      cargoType: string,
+      isDangerous: boolean,
+      canBeTurned: boolean,
+      isKnown: boolean,
+      aircraftOnly: boolean,
       description: string,
-      sizemetric: string,
-      weightmetric: string,
+      sizeMetric: string,
+      weightMetric: string,
       cargoList: Array<QuoteService.Cargo.AsObject>,
-      rate?: QuoteService.Rate.AsObject,
+      rate?: QuoteService.Rates.Rate.AsObject,
     }
   }
 
 
-  export class CustomerContact extends jspb.Message {
+  export class Customer extends jspb.Message {
     getName(): string;
-    setName(value: string): CustomerContact;
-
-    getPhone(): string;
-    setPhone(value: string): CustomerContact;
-
-    getEmail(): string;
-    setEmail(value: string): CustomerContact;
+    setName(value: string): Customer;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): CustomerContact.AsObject;
-    static toObject(includeInstance: boolean, msg: CustomerContact): CustomerContact.AsObject;
-    static serializeBinaryToWriter(message: CustomerContact, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): CustomerContact;
-    static deserializeBinaryFromReader(message: CustomerContact, reader: jspb.BinaryReader): CustomerContact;
+    toObject(includeInstance?: boolean): Customer.AsObject;
+    static toObject(includeInstance: boolean, msg: Customer): Customer.AsObject;
+    static serializeBinaryToWriter(message: Customer, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Customer;
+    static deserializeBinaryFromReader(message: Customer, reader: jspb.BinaryReader): Customer;
   }
 
-  export namespace CustomerContact {
+  export namespace Customer {
     export type AsObject = {
       name: string,
-      phone: string,
-      email: string,
     }
+
+    export class Contact extends jspb.Message {
+      getName(): string;
+      setName(value: string): Contact;
+
+      getPhone(): string;
+      setPhone(value: string): Contact;
+
+      getEmail(): string;
+      setEmail(value: string): Contact;
+
+      serializeBinary(): Uint8Array;
+      toObject(includeInstance?: boolean): Contact.AsObject;
+      static toObject(includeInstance: boolean, msg: Contact): Contact.AsObject;
+      static serializeBinaryToWriter(message: Contact, writer: jspb.BinaryWriter): void;
+      static deserializeBinary(bytes: Uint8Array): Contact;
+      static deserializeBinaryFromReader(message: Contact, reader: jspb.BinaryReader): Contact;
+    }
+
+    export namespace Contact {
+      export type AsObject = {
+        name: string,
+        phone: string,
+        email: string,
+      }
+    }
+
   }
 
 
   export class Cargo extends jspb.Message {
-    getPieces(): number;
-    setPieces(value: number): Cargo;
+    getTotalPieces(): number;
+    setTotalPieces(value: number): Cargo;
 
-    getClength(): number;
-    setClength(value: number): Cargo;
+    getTotalWeight(): number;
+    setTotalWeight(value: number): Cargo;
 
-    getWidth(): number;
-    setWidth(value: number): Cargo;
+    getTotalVolume(): number;
+    setTotalVolume(value: number): Cargo;
 
-    getHeight(): number;
-    setHeight(value: number): Cargo;
-
-    getGrossweight(): number;
-    setGrossweight(value: number): Cargo;
+    getSpecificationsList(): Array<QuoteService.Cargo.Specification>;
+    setSpecificationsList(value: Array<QuoteService.Cargo.Specification>): Cargo;
+    clearSpecificationsList(): Cargo;
+    addSpecifications(value?: QuoteService.Cargo.Specification, index?: number): QuoteService.Cargo.Specification;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Cargo.AsObject;
@@ -169,51 +189,121 @@ export namespace QuoteService {
 
   export namespace Cargo {
     export type AsObject = {
-      pieces: number,
-      clength: number,
-      width: number,
-      height: number,
-      grossweight: number,
+      totalPieces: number,
+      totalWeight: number,
+      totalVolume: number,
+      specificationsList: Array<QuoteService.Cargo.Specification.AsObject>,
     }
+
+    export class Specification extends jspb.Message {
+      getPieces(): number;
+      setPieces(value: number): Specification;
+
+      getDimensions(): QuoteService.Cargo.Dimensions | undefined;
+      setDimensions(value?: QuoteService.Cargo.Dimensions): Specification;
+      hasDimensions(): boolean;
+      clearDimensions(): Specification;
+
+      getGrossWeight(): number;
+      setGrossWeight(value: number): Specification;
+
+      serializeBinary(): Uint8Array;
+      toObject(includeInstance?: boolean): Specification.AsObject;
+      static toObject(includeInstance: boolean, msg: Specification): Specification.AsObject;
+      static serializeBinaryToWriter(message: Specification, writer: jspb.BinaryWriter): void;
+      static deserializeBinary(bytes: Uint8Array): Specification;
+      static deserializeBinaryFromReader(message: Specification, reader: jspb.BinaryReader): Specification;
+    }
+
+    export namespace Specification {
+      export type AsObject = {
+        pieces: number,
+        dimensions?: QuoteService.Cargo.Dimensions.AsObject,
+        grossWeight: number,
+      }
+    }
+
+
+    export class Dimensions extends jspb.Message {
+      getLength(): number;
+      setLength(value: number): Dimensions;
+
+      getWidth(): number;
+      setWidth(value: number): Dimensions;
+
+      getHeight(): number;
+      setHeight(value: number): Dimensions;
+
+      serializeBinary(): Uint8Array;
+      toObject(includeInstance?: boolean): Dimensions.AsObject;
+      static toObject(includeInstance: boolean, msg: Dimensions): Dimensions.AsObject;
+      static serializeBinaryToWriter(message: Dimensions, writer: jspb.BinaryWriter): void;
+      static deserializeBinary(bytes: Uint8Array): Dimensions;
+      static deserializeBinaryFromReader(message: Dimensions, reader: jspb.BinaryReader): Dimensions;
+    }
+
+    export namespace Dimensions {
+      export type AsObject = {
+        length: number,
+        width: number,
+        height: number,
+      }
+    }
+
   }
 
 
-  export class Rate extends jspb.Message {
-    getOn(): string;
-    setOn(value: string): Rate;
-
-    getCostmin(): number;
-    setCostmin(value: number): Rate;
-
-    getCostrate(): number;
-    setCostrate(value: number): Rate;
-
-    getSalesmin(): number;
-    setSalesmin(value: number): Rate;
-
-    getSalesrate(): number;
-    setSalesrate(value: number): Rate;
-
-    getCurrency(): string;
-    setCurrency(value: string): Rate;
-
+  export class Rates extends jspb.Message {
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): Rate.AsObject;
-    static toObject(includeInstance: boolean, msg: Rate): Rate.AsObject;
-    static serializeBinaryToWriter(message: Rate, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): Rate;
-    static deserializeBinaryFromReader(message: Rate, reader: jspb.BinaryReader): Rate;
+    toObject(includeInstance?: boolean): Rates.AsObject;
+    static toObject(includeInstance: boolean, msg: Rates): Rates.AsObject;
+    static serializeBinaryToWriter(message: Rates, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Rates;
+    static deserializeBinaryFromReader(message: Rates, reader: jspb.BinaryReader): Rates;
   }
 
-  export namespace Rate {
+  export namespace Rates {
     export type AsObject = {
-      on: string,
-      costmin: number,
-      costrate: number,
-      salesmin: number,
-      salesrate: number,
-      currency: string,
     }
+
+    export class Rate extends jspb.Message {
+      getOn(): string;
+      setOn(value: string): Rate;
+
+      getCostMin(): number;
+      setCostMin(value: number): Rate;
+
+      getCostRate(): number;
+      setCostRate(value: number): Rate;
+
+      getSalesMin(): number;
+      setSalesMin(value: number): Rate;
+
+      getSalesRate(): number;
+      setSalesRate(value: number): Rate;
+
+      getCurrency(): string;
+      setCurrency(value: string): Rate;
+
+      serializeBinary(): Uint8Array;
+      toObject(includeInstance?: boolean): Rate.AsObject;
+      static toObject(includeInstance: boolean, msg: Rate): Rate.AsObject;
+      static serializeBinaryToWriter(message: Rate, writer: jspb.BinaryWriter): void;
+      static deserializeBinary(bytes: Uint8Array): Rate;
+      static deserializeBinaryFromReader(message: Rate, reader: jspb.BinaryReader): Rate;
+    }
+
+    export namespace Rate {
+      export type AsObject = {
+        on: string,
+        costMin: number,
+        costRate: number,
+        salesMin: number,
+        salesRate: number,
+        currency: string,
+      }
+    }
+
   }
 
 
@@ -272,47 +362,28 @@ export namespace QuoteService {
   }
 
 
-  export class QuoteCreateResponse extends jspb.Message {
-    getResponse(): string;
-    setResponse(value: string): QuoteCreateResponse;
+  export class QuoteIdResponse extends jspb.Message {
+    getId(): string;
+    setId(value: string): QuoteIdResponse;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): QuoteCreateResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: QuoteCreateResponse): QuoteCreateResponse.AsObject;
-    static serializeBinaryToWriter(message: QuoteCreateResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): QuoteCreateResponse;
-    static deserializeBinaryFromReader(message: QuoteCreateResponse, reader: jspb.BinaryReader): QuoteCreateResponse;
+    toObject(includeInstance?: boolean): QuoteIdResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: QuoteIdResponse): QuoteIdResponse.AsObject;
+    static serializeBinaryToWriter(message: QuoteIdResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): QuoteIdResponse;
+    static deserializeBinaryFromReader(message: QuoteIdResponse, reader: jspb.BinaryReader): QuoteIdResponse;
   }
 
-  export namespace QuoteCreateResponse {
+  export namespace QuoteIdResponse {
     export type AsObject = {
-      response: string,
-    }
-  }
-
-
-  export class QuoteUpdateResponse extends jspb.Message {
-    getResponse(): string;
-    setResponse(value: string): QuoteUpdateResponse;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): QuoteUpdateResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: QuoteUpdateResponse): QuoteUpdateResponse.AsObject;
-    static serializeBinaryToWriter(message: QuoteUpdateResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): QuoteUpdateResponse;
-    static deserializeBinaryFromReader(message: QuoteUpdateResponse, reader: jspb.BinaryReader): QuoteUpdateResponse;
-  }
-
-  export namespace QuoteUpdateResponse {
-    export type AsObject = {
-      response: string,
+      id: string,
     }
   }
 
 
   export class QuoteDeleteResponse extends jspb.Message {
-    getResponse(): string;
-    setResponse(value: string): QuoteDeleteResponse;
+    getRespsone(): string;
+    setRespsone(value: string): QuoteDeleteResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): QuoteDeleteResponse.AsObject;
@@ -324,7 +395,7 @@ export namespace QuoteService {
 
   export namespace QuoteDeleteResponse {
     export type AsObject = {
-      response: string,
+      respsone: string,
     }
   }
 
